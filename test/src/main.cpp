@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <iostream>
 #include <numeric>
+#include "Model.h"
 #include "AnalysisGenerator.h"
 #include "AnalysisParameters.h"
 
@@ -22,11 +23,16 @@ int main()
 	bounds.push_back(make_pair(-1, 1));
 	bounds.push_back(make_pair(0, 10));
 
-	AnalysisParameters params;
+	AnalysisParametersBlock block;
+
+	block.addParameter("x", 0, 1);
+	block.addParameter("y", -1, 1);
+	block.addParameter("z", 0, 10);
+	/*AnalysisParameters params;
 
 	params.addParameter("x", 0, 1);
 	params.addParameter("y", -1, 1);
-	params.addParameter("z", 0, 10);
+	params.addParameter("z", 0, 10);*/
 
 	FullFactorial ff();
 	Model model;

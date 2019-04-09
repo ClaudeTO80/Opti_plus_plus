@@ -33,42 +33,62 @@ AnalysisParameter::AnalysisParameter(string name, const vector<double>& values, 
 
 shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, double lb, double ub)
 {
-	auto param = new AnalysisParameter(name, lb, ub);
-	shared_ptr<AnalysisParameter> shared_param;
-	shared_param.reset(param);
-	paramsVect_.push_back(shared_param);
-	params_.insert(make_pair(name, shared_param));
-	return shared_param;
+	if (params_.find(name) == params_.end())
+	{
+		auto param = new AnalysisParameter(name, lb, ub);
+		shared_ptr<AnalysisParameter> shared_param;
+		shared_param.reset(param);
+		paramsVect_.push_back(shared_param);
+		params_.insert(make_pair(name, shared_param));
+		return shared_param;
+	}
+	else
+		return {};
 }
 
 shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, const vector<double>& values)
 {
-	auto param = new AnalysisParameter(name, values);
-	shared_ptr<AnalysisParameter> shared_param;
-	shared_param.reset(param);
-	paramsVect_.push_back(shared_param);
-	params_.insert(make_pair(name, shared_param));
-	return shared_param;
+	if (params_.find(name) == params_.end())
+	{
+		auto param = new AnalysisParameter(name, values);
+		shared_ptr<AnalysisParameter> shared_param;
+		shared_param.reset(param);
+		paramsVect_.push_back(shared_param);
+		params_.insert(make_pair(name, shared_param));
+		return shared_param;
+	}
+	else
+		return {};
 }
 
 shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, double lb, double ub, int dim)
 {
-	auto param = new AnalysisParameter(name, lb, ub, dim);
-	shared_ptr<AnalysisParameter> shared_param;
-	shared_param.reset(param);
-	paramsVect_.push_back(shared_param);
-	params_.insert(make_pair(name, shared_param));
-	return shared_param;
+	if (params_.find(name) == params_.end())
+	{
+		auto param = new AnalysisParameter(name, lb, ub, dim);
+		shared_ptr<AnalysisParameter> shared_param;
+		shared_param.reset(param);
+		paramsVect_.push_back(shared_param);
+		params_.insert(make_pair(name, shared_param));
+		return shared_param;
+	}
+	else
+		return {};
 }
 
 shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, const vector<double>& values, int dim)
 {
-	auto param = new AnalysisParameter(name, values, dim);
-	shared_ptr<AnalysisParameter> shared_param(param);
-	//shared_param.reset(param);
-	paramsVect_.push_back(shared_param);
-	params_.insert(make_pair(name, shared_param));
-	return shared_param;
+	if (params_.find(name) == params_.end())
+	{
+		auto param = new AnalysisParameter(name, values, dim);
+		shared_ptr<AnalysisParameter> shared_param(param);
+		//shared_param.reset(param);
+		paramsVect_.push_back(shared_param);
+		params_.insert(make_pair(name, shared_param));
+		return shared_param;
+	}
+	else
+		return {};
 }
 
 shared_ptr<AnalysisParameter> AnalysisParameters::getParameter(int index)
