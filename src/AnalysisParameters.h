@@ -94,8 +94,8 @@ namespace AnalysisGenerator
 		AnalysisParameter(std::string name, const std::vector<double>& values);
 		AnalysisParameter(std::string name, double lb, double ub, int dim);
 		AnalysisParameter(std::string name, const std::vector<double>& values, int dim);
-		const std::vector<double>& createValues(double lb, double ub, double step );
-		const std::vector<double>& createValues(double lb, double ub, int numElems);
+		const std::vector<double> createValues(double lb, double ub, double step );
+		const std::vector<double> createValues(double lb, double ub, int numElems);
 		bool setBounds(double lb, double ub);
 		bool setValues(double lb, double ub, double step );
 		bool setValues(double lb, double ub, int numElems);

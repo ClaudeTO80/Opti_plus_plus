@@ -103,3 +103,126 @@ shared_ptr<AnalysisParameter> AnalysisParameters::getParameter(string name)
 	shared_ptr<AnalysisParameter> temp;
 	return param != params_.end() ? param->second : temp;
 }
+
+const vector<double> AnalysisParameter::createValues(double lb, double ub, double step )
+{
+	vector<double> output;
+	int dim=(ub-lb)/step;
+	output.reserve(dim);
+	
+	for (int i=0;i<dim;++i)
+		output.push_back(lb+i*step);
+	
+	return output;
+	
+}
+
+const vector<double> AnalysisParameter::createValues(double lb, double ub, int numElems)
+{
+	vector<double> output;
+	double step=(ub-lb)/numElems;
+	output.reserve(numElems);
+	
+	for (int i=0;i<numElems;++i)
+		output.push_back(lb+i*step);
+	
+	return output;	
+}
+
+bool  AnalysisParameter::setBounds(double lb, double ub)
+{
+	if (lb<ub)
+	{
+		lb_=lb;
+		ub_=ub;
+		values.clear();
+		return true;
+	}
+	
+	else
+		return false;
+}
+
+bool  AnalysisParameter::setValues(double lb, double ub, double step )
+{
+	auto temp=createValues(lb,ub,step);
+	
+	if (temp.empty())
+		return false;
+	
+	else
+	{
+		values_=temp(lb,ub,step);
+		return true;
+	}
+	
+}
+
+bool  AnalysisParameter::setValues(double lb, double ub, int numElems)
+{
+	auto temp=createValues(lb,ub,step);
+	
+	if (temp.empty())
+		return false;
+	
+	else
+	{
+		values_=temp(lb,ub,numElems);
+		return true;
+	}
+}
+
+bool  AnalysisParameter::setValues(const vector<double>& values)
+{
+	if (values.empty())
+		return false;
+	
+	else
+	{
+		values_=values;
+		return true;
+	}
+}
+
+bool  AnalysisParameter::appendValues(double lb, double ub, double step )
+{
+	auto temp=createValues(lb,ub,step);
+	
+	if (temp.empty())
+		return false;
+	
+	else
+	{
+		values_.reserve(values_.size()+temp.size());
+		values_.insert(values_.end(), temp.begin(), temp.end());
+		return true;
+	}
+}
+
+bool  AnalysisParameter::appendValues(double lb, double ub, int numElems)
+{
+	auto temp=createValues(lb,ub,numElems);
+	
+	if (temp.empty())
+		return false;
+	
+	else
+	{
+		values_.reserve(values_.size()+temp.size());
+		values_.insert(values_.end(), temp.begin(), temp.end());
+		return true;
+	}
+}
+
+bool  AnalysisParameter::appendValues(const vector<double>& values)
+{
+	if (values.empty())
+		return false;
+	
+	else
+	{
+		values_.reserve(values_.size()+values.size());
+		values_.insert(values_.end(), values.begin(), values.end());
+		return true;
+	}
+}
