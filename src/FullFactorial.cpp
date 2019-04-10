@@ -8,7 +8,7 @@ using namespace AnalysisGenerator;
 
 bool FullFactorial::generateIndicesMatrix()
 {
-	int numVars = levels_.size();
+	int numVars = (int)levels_.size();
 	int currLevel = 0;
 
 	auto numSamples = accumulate(begin(levels_), end(levels_), 1, std::multiplies<int>());
@@ -46,10 +46,10 @@ bool FullFactorial::generateIndicesMatrix()
 
 bool FullFactorial::generate()
 {
-	int numVars = levels_.size();
+	int numVars = (int)levels_.size();
 	generateIndicesMatrix();
 
-	int numSamples = matrixIndices_.size();
+	int numSamples = (int)matrixIndices_.size();
 	vector<vector<double>> values;
 	values.reserve(numVars);
 	for (int i = 0; i < numVars; ++i)
@@ -95,8 +95,8 @@ void FullFactorial::dumpIndicesMatrix(ostream& os, string separator)
 	if (matrixIndices_.size() == 0)
 		return;
 
-	int numSamples = matrixIndices_.size();
-	int numVars = matrixIndices_[0].size();
+	int numSamples = (int)matrixIndices_.size();
+	int numVars = (int)matrixIndices_[0].size();
 
 	for (int i = 0; i < numSamples; ++i)
 	{

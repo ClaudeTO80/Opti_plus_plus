@@ -13,8 +13,8 @@ bool Generator::dumpMatrix(	ostream& os,
 	if (matrix_.size() == 0)
 		return false;
 
-	int numSamples = matrix_.size();
-	int numVars = matrix_[0].size();
+	int numSamples = (int)matrix_.size();
+	int numVars = (int)matrix_[0].size();
 
 	if (headers)
 	{

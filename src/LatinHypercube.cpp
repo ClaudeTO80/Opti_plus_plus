@@ -9,7 +9,7 @@ using namespace AnalysisGenerator;
 
 bool LatinHypercube::generateIndicesMatrix()
 {
-	int numVars = bounds_.size();
+	int numVars = (int)bounds_.size();
 	int locSamples = numSamples_;
 	vector<vector<int>> subsets;
 	subsets.reserve(numVars);
@@ -44,7 +44,7 @@ bool LatinHypercube::generateIndicesMatrix()
 bool LatinHypercube::generate()
 {
 	generateIndicesMatrix();
-	int numVars = bounds_.size();
+	int numVars = (int)bounds_.size();
 	int locSamples = numSamples_;
 	vector<vector<double>> tempSamples;
 	tempSamples.reserve(numVars);
@@ -95,8 +95,8 @@ void LatinHypercube::dumpIndicesMatrix(ostream& os,bool headers, string separato
 	if (matrixIndices_.size() == 0)
 		return;
 
-	int numSamples = matrixIndices_.size();
-	int numVars = matrixIndices_[0].size();
+	int numSamples = (int)matrixIndices_.size();
+	int numVars = (int)matrixIndices_[0].size();
 
 	if (headers)
 	{

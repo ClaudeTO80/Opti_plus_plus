@@ -19,7 +19,7 @@ namespace AnalysisGenerator
 
 		bool addSamples(const std::vector<std::shared_ptr<Sample>>& samples)
 		{
-			std::for_each(samples.begin(), samples.end(), [&](std::shared_ptr<Sample>& curr)
+			std::for_each(samples.begin(), samples.end(), [&](const std::shared_ptr<Sample>& curr)
 			{
 				samples_.add(curr);
 			});

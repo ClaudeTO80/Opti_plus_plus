@@ -50,7 +50,7 @@ namespace AnalysisGenerator
 		std::shared_ptr<Sample> get(int i)
 		{
 			if (i >= numElems_)
-				return std::make_shared<Sample>();
+				return {};
 			else
 				return samples_[i];
 		}

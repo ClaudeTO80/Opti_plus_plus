@@ -107,7 +107,7 @@ shared_ptr<AnalysisParameter> AnalysisParameters::getParameter(string name)
 const vector<double> AnalysisParameter::createValues(double lb, double ub, double step )
 {
 	vector<double> output;
-	int dim=(ub-lb)/step;
+	int dim=(int)((ub-lb)/step);
 	output.reserve(dim);
 	
 	for (int i=0;i<dim;++i)
@@ -135,7 +135,7 @@ bool  AnalysisParameter::setBounds(double lb, double ub)
 	{
 		lb_=lb;
 		ub_=ub;
-		values.clear();
+		values_.clear();
 		return true;
 	}
 	
@@ -152,7 +152,7 @@ bool  AnalysisParameter::setValues(double lb, double ub, double step )
 	
 	else
 	{
-		values_=temp(lb,ub,step);
+		values_=temp;
 		return true;
 	}
 	
@@ -160,14 +160,14 @@ bool  AnalysisParameter::setValues(double lb, double ub, double step )
 
 bool  AnalysisParameter::setValues(double lb, double ub, int numElems)
 {
-	auto temp=createValues(lb,ub,step);
+	auto temp=createValues(lb,ub, numElems);
 	
 	if (temp.empty())
 		return false;
 	
 	else
 	{
-		values_=temp(lb,ub,numElems);
+		values_=temp;
 		return true;
 	}
 }

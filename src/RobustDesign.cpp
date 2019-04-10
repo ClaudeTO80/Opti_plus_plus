@@ -7,14 +7,14 @@ using namespace AnalysisGenerator;
 
 bool RobustDesignGenerator::generate()
 {
-	int totSamples = basicSamples_.size()*(numSamples_ + 1);
+	int totSamples = (int)basicSamples_.size()*(numSamples_ + 1);
 	output_.reserve(totSamples);
 	default_random_engine generator;
 	
 	for_each(begin(basicSamples_), end(basicSamples_), [&](vector<double>& curr) 
 	{
 		output_.push_back(curr);
-		int dim= curr.size();
+		int dim= (int)curr.size();
 		vector<normal_distribution<double>> distr;
 		distr.reserve(basicSamples_[0].size());
 
