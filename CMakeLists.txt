@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 project(AnalysisLib)
-
+include(CTest)
 #OPTION(BUILD_TYPE "Build tests." OFF)
 
 SET(BUILD_TYPE "Static" CACHE STRING "Static")
@@ -11,10 +11,7 @@ if(MSVC)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
 endif(MSVC)
 
-file(GLOB AnalysisLib_src
-    "src/*.h"
-    "src/*.cpp"
-)
+file(GLOB AnalysisLib_src "src/*.h" "src/*.cpp")
 #message( ${AnalysisLib_src} )
 IF(${BUILD_TYPE} MATCHES "Static" OR ${BUILD_TYPE} MATCHES "Both")
 	add_library(AnalysisLib STATIC ${AnalysisLib_src})
@@ -46,5 +43,11 @@ set_target_properties( AnalysisLibShared
 )
 ENDIF()
 
-include_directories(${AnalysisLib_src})
+include_directories("src")
+if(BUILD_TESTING)
+	file(GLOB testFullFact_src "test/src/*.cpp")
+	add_executable(testFullFact  ${testFullFact_src})
+	include_directories("../../src")
+	target_link_libraries(testFullFact AnalysisLib) 
+endif()
 #add_test(toDoTest toDo)
