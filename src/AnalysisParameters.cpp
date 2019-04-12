@@ -31,17 +31,21 @@ AnalysisParameter::AnalysisParameter(string name, const vector<double>& values, 
 	values_ = values;
 }
 
+std::shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(shared_ptr<AnalysisParameter>& param)
+{
+	if (param.get())
+	{
+		paramsVect_.push_back(param);
+		params_.insert(make_pair(param->name(), param));
+	}
+		
+	return param;
+}
+
 shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, double lb, double ub)
 {
 	if (params_.find(name) == params_.end())
-	{
-		auto param = new AnalysisParameter(name, lb, ub);
-		shared_ptr<AnalysisParameter> shared_param;
-		shared_param.reset(param);
-		paramsVect_.push_back(shared_param);
-		params_.insert(make_pair(name, shared_param));
-		return shared_param;
-	}
+		return addParameter(generator_.createParameter(name, lb, ub));
 	else
 		return {};
 }
@@ -49,14 +53,7 @@ shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, doub
 shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, const vector<double>& values)
 {
 	if (params_.find(name) == params_.end())
-	{
-		auto param = new AnalysisParameter(name, values);
-		shared_ptr<AnalysisParameter> shared_param;
-		shared_param.reset(param);
-		paramsVect_.push_back(shared_param);
-		params_.insert(make_pair(name, shared_param));
-		return shared_param;
-	}
+		return addParameter(generator_.createParameter(name, values));
 	else
 		return {};
 }
@@ -64,14 +61,7 @@ shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, cons
 shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, double lb, double ub, int dim)
 {
 	if (params_.find(name) == params_.end())
-	{
-		auto param = new AnalysisParameter(name, lb, ub, dim);
-		shared_ptr<AnalysisParameter> shared_param;
-		shared_param.reset(param);
-		paramsVect_.push_back(shared_param);
-		params_.insert(make_pair(name, shared_param));
-		return shared_param;
-	}
+		return addParameter(generator_.createParameter(name, lb, ub, dim));
 	else
 		return {};
 }
@@ -79,14 +69,7 @@ shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, doub
 shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, const vector<double>& values, int dim)
 {
 	if (params_.find(name) == params_.end())
-	{
-		auto param = new AnalysisParameter(name, values, dim);
-		shared_ptr<AnalysisParameter> shared_param(param);
-		//shared_param.reset(param);
-		paramsVect_.push_back(shared_param);
-		params_.insert(make_pair(name, shared_param));
-		return shared_param;
-	}
+		return addParameter(generator_.createParameter(name, values, dim));
 	else
 		return {};
 }

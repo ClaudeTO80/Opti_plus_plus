@@ -29,7 +29,7 @@ namespace AnalysisGenerator
 
 		bool addParameter(std::shared_ptr<AnalysisParameter> param)
 		{
-			return params_.addParameter(param);
+			return params_.addParameter(param).get();
 		}
 
 		std::shared_ptr<AnalysisParameter> addParameter(std::string name, double lb, double ub)

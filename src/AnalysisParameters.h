@@ -8,7 +8,7 @@
 namespace AnalysisGenerator
 {
 	class AnalysisParametersBlock;
-	class AnalysisParameters;
+	class AnalysisParameterCreator;
 
 	/**
 	@brief Class representing a parameter used for analysis
@@ -88,7 +88,7 @@ namespace AnalysisGenerator
 
 	private:
 
-		friend class AnalysisParameters;
+		friend class AnalysisParameterCreator;
 		AnalysisParameter() {}
 		AnalysisParameter(std::string name, double lb, double ub);
 		AnalysisParameter(std::string name, const std::vector<double>& values);
@@ -111,28 +111,57 @@ namespace AnalysisGenerator
 		//int numDiscr_{ 2 };             /**< Detailed description after the member */
 	};
 
-	
+	class AnalysisParameterCreator
+	{
+	public:
+		std::shared_ptr<AnalysisParameter> createParameter(const std::string& name, double lb, double ub)
+		{
+			if (name.empty() || lb >= ub)
+				return {};
+
+			else
+				return std::shared_ptr<AnalysisParameter>(new AnalysisParameter(name, lb, ub));
+		}
+				
+		std::shared_ptr<AnalysisParameter> createParameter(const std::string& name, const std::vector<double>& values)
+		{
+			if (name.empty() || values.empty())
+				return {};
+
+			return std::shared_ptr<AnalysisParameter>(new AnalysisParameter(name, values));
+		}
+
+		std::shared_ptr<AnalysisParameter> createParameter(const std::string& name, double lb, double ub, int dim)
+		{
+			if (name.empty() || lb >= ub || dim <=0)
+				return {};
+
+			return std::shared_ptr<AnalysisParameter>(new AnalysisParameter(name, lb, ub));
+		}
+
+		std::shared_ptr<AnalysisParameter> createParameter(const std::string& name, const std::vector<double>& values, int dim)
+		{
+			if (name.empty() || values.empty() || dim <= 0)
+				return {};
+
+			return std::shared_ptr<AnalysisParameter>(new AnalysisParameter(name, values, dim));
+		}
+	};
+
 	class AnalysisParameters
 	{
 	public:
 				
-		
+		AnalysisParameters() { generator_ = AnalysisParameterCreator(); }
 	private:
+		AnalysisParameterCreator generator_;
 		friend class AnalysisParametersBlock;
+		std::shared_ptr<AnalysisParameter> addParameter(std::shared_ptr<AnalysisParameter>& param);
 		std::shared_ptr<AnalysisParameter> addParameter(std::string name, double lb, double ub);
 		std::shared_ptr<AnalysisParameter> addParameter(std::string name, const std::vector<double>& values);
 		std::shared_ptr<AnalysisParameter> addParameter(std::string name, double lb, double ub, int dim);
 		std::shared_ptr<AnalysisParameter> addParameter(std::string name, const std::vector<double>& values, int dim);
 		
-		bool addParameter(std::shared_ptr<AnalysisParameter> param)
-		{
-			if (params_.find(param->name()) == params_.end())
-			{
-				paramsVect_.push_back(param);
-				params_.insert(std::make_pair(param->name(), param));
-			}
-		}
-
 		void toScalar(std::vector<double>& lb,
 			std::vector<double>& ub,
 			std::vector<std::vector<double>>& allowed,
