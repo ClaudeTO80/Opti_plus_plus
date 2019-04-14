@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <memory>
 #include "DoeGenerator.h"
 #include "AnalysisOptions.h"
 
@@ -8,17 +9,19 @@ namespace AnalysisGenerator
 	class LatinHypercubeOptions : GeneratorOptions
 	{
 	public:
-		enum Options { NumSamples_ = 0 };
 		LatinHypercubeOptions() {
-			addOption(NumSamples_, 10);
+			addOption("numSamples", 10);
 		}
 	};
 
 	class LatinHypercube : public DoeGenerator
 	{
 	public:
-		LatinHypercube(const std::vector<std::pair<double, double>>& bounds) :DoeGenerator(bounds) {}
-		LatinHypercube() :DoeGenerator() {}
+		//LatinHypercube(const std::vector<std::pair<double, double>>& bounds) :DoeGenerator(bounds) {}
+		LatinHypercube(std::shared_ptr<AnalysisParametersBlock>& block) :DoeGenerator(block)
+		{
+			setOptions();
+		}
 		bool generate() override;
 		bool generateIndicesMatrix();
 		void setNumSamples(int numSamples);
@@ -29,6 +32,10 @@ namespace AnalysisGenerator
 								bool headers = true, 
 								std::ios_base::openmode mode = std::ios_base::out, 
 								std::string separator = " ");
+		void setOptions()
+		{
+			
+		}
 	private:
 		std::vector<std::vector<int>> matrixIndices_;
 		int numSamples_;

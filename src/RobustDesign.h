@@ -9,9 +9,8 @@ namespace AnalysisGenerator
 	{
 	public:
 		RobustDesignOptions() {
-			enum Options { NumSamples_ = 0, Variances_ };
-			addOption(NumSamples_, 10);
-			addOption(Variances_, 1);
+			addOption("numSamples", 10);
+			addOption("variances", 1);
 		}
 	};
 

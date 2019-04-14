@@ -33,8 +33,9 @@ int main()
 	params.addParameter("x", 0, 1);
 	params.addParameter("y", -1, 1);
 	params.addParameter("z", 0, 10);*/
-
-	FullFactorial ff();
+	auto temp = make_shared< AnalysisParametersBlock>(block);
+	FullFactorial ff(temp);
+	ff.generate();
 	Model model;
 	//FullFactorialDoeGenerator sgdg(bounds);
 	//sgdg.setLevels(levels);

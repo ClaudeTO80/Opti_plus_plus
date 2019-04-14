@@ -52,6 +52,7 @@ namespace AnalysisGenerator
 			return params_.addParameter(name, values, dim);
 		}
 
+		const std::vector<std::shared_ptr<AnalysisParameter>>& getParameters() { return params_.getParameters(); }
 
 	private:
 		AnalysisParameters params_;

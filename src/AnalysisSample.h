@@ -4,7 +4,7 @@
 
 namespace AnalysisGenerator
 {
-	class AnalysisBlock;
+	//class AnalysisBlock;
 	class Sample
 	{
 	public:

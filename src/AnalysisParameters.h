@@ -114,7 +114,7 @@ namespace AnalysisGenerator
 	class AnalysisParameterCreator
 	{
 	public:
-		std::shared_ptr<AnalysisParameter> createParameter(const std::string& name, double lb, double ub)
+		static std::shared_ptr<AnalysisParameter> createParameter(const std::string& name, double lb, double ub)
 		{
 			if (name.empty() || lb >= ub)
 				return {};
@@ -123,7 +123,7 @@ namespace AnalysisGenerator
 				return std::shared_ptr<AnalysisParameter>(new AnalysisParameter(name, lb, ub));
 		}
 				
-		std::shared_ptr<AnalysisParameter> createParameter(const std::string& name, const std::vector<double>& values)
+		static std::shared_ptr<AnalysisParameter> createParameter(const std::string& name, const std::vector<double>& values)
 		{
 			if (name.empty() || values.empty())
 				return {};
@@ -131,7 +131,7 @@ namespace AnalysisGenerator
 			return std::shared_ptr<AnalysisParameter>(new AnalysisParameter(name, values));
 		}
 
-		std::shared_ptr<AnalysisParameter> createParameter(const std::string& name, double lb, double ub, int dim)
+		static std::shared_ptr<AnalysisParameter> createParameter(const std::string& name, double lb, double ub, int dim)
 		{
 			if (name.empty() || lb >= ub || dim <=0)
 				return {};
@@ -139,7 +139,7 @@ namespace AnalysisGenerator
 			return std::shared_ptr<AnalysisParameter>(new AnalysisParameter(name, lb, ub));
 		}
 
-		std::shared_ptr<AnalysisParameter> createParameter(const std::string& name, const std::vector<double>& values, int dim)
+		static std::shared_ptr<AnalysisParameter> createParameter(const std::string& name, const std::vector<double>& values, int dim)
 		{
 			if (name.empty() || values.empty() || dim <= 0)
 				return {};
@@ -152,16 +152,16 @@ namespace AnalysisGenerator
 	{
 	public:
 				
-		AnalysisParameters() { generator_ = AnalysisParameterCreator(); }
+		AnalysisParameters() {}
 	private:
-		AnalysisParameterCreator generator_;
+		
 		friend class AnalysisParametersBlock;
 		std::shared_ptr<AnalysisParameter> addParameter(std::shared_ptr<AnalysisParameter>& param);
 		std::shared_ptr<AnalysisParameter> addParameter(std::string name, double lb, double ub);
 		std::shared_ptr<AnalysisParameter> addParameter(std::string name, const std::vector<double>& values);
 		std::shared_ptr<AnalysisParameter> addParameter(std::string name, double lb, double ub, int dim);
 		std::shared_ptr<AnalysisParameter> addParameter(std::string name, const std::vector<double>& values, int dim);
-		
+				
 		void toScalar(std::vector<double>& lb,
 			std::vector<double>& ub,
 			std::vector<std::vector<double>>& allowed,
@@ -194,6 +194,7 @@ namespace AnalysisGenerator
 
 		std::shared_ptr<AnalysisParameter> getParameter(int index);
 		std::shared_ptr<AnalysisParameter> getParameter(std::string name);
+		const std::vector<std::shared_ptr<AnalysisParameter>>& getParameters() { return paramsVect_; }
 
 		std::vector<std::shared_ptr<AnalysisParameter>> paramsVect_;
 		std::map<std::string, std::shared_ptr<AnalysisParameter>> params_;

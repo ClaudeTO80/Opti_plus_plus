@@ -3,6 +3,7 @@
 #include <ostream>
 
 #include "GenericGenerator.h"
+#include "AnalysisParametersBlock.h"
 
 namespace AnalysisGenerator
 {
@@ -10,8 +11,12 @@ namespace AnalysisGenerator
 	{
 	public:
 
-		DoeGenerator(const std::vector<std::pair<double, double>>& bounds) : bounds_(bounds) {};
-		DoeGenerator() {}
+		//DoeGenerator(const std::vector<std::pair<double, double>>& bounds) : bounds_(bounds) {};
+		DoeGenerator(std::shared_ptr<AnalysisParametersBlock>& block)
+		{
+			block_ = block;
+			return;
+		}
 		void setBounds(const std::vector<std::pair<double, double>>& bounds) { bounds_ = bounds; }
 		void addBound(const std::pair<double, double>& bounds)
 		{
@@ -28,6 +33,7 @@ namespace AnalysisGenerator
 	protected:
 		bool randomSorting_{ false };
 		std::vector<std::pair<double, double>> bounds_;
+		std::shared_ptr<AnalysisParametersBlock> block_;
 		
 	};
 

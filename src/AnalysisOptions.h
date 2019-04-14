@@ -4,6 +4,9 @@
 #include <vector>
 #include <memory>
 #include <type_traits>
+#include <iostream>
+#include <sstream>
+
 #include "AnGenUtils.h"
 
 namespace AnalysisGenerator
@@ -24,41 +27,63 @@ namespace AnalysisGenerator
 		
 
 		template<
-			typename T, //real type
-			typename = typename std::enable_if_t<std::is_arithmetic_v<T> || std::is_literal_type_v<T>>>
+			typename T,
+			typename = typename std::enable_if_t<std::is_literal_type_v<T> || std::is_arithmetic_v<T>>>
 		T value() 
 		{ 
-			if (std::is_same_v<T, double>)
+			std::stringstream ss(value_);
+			T t;
+			ss >> t;
+			return t;
+
+			/*if (std::is_same_v<T, double>)
 				return std::stod(value_);
 		
 			if (std::is_same_v<T, float>)
 				return std::stof(value_);
 
 			if (std::is_same_v<T, int>)
-				return std::stoi(value_);
+				return std::stoi(value_);*/
 
-			if (std::is_same_v<T, std::string>)
-				return value_;
+			//if (std::is_same_v<T, std::string>)
+			//	return value_;
 		};
 
+		//template<
+		//	typename T, //real type
+		//	typename = typename std::enable_if_t<std::is_arithmetic_v<T>>>
+		//	T value()
+		//{
+		//	if (std::is_same_v<T, double>)
+		//		return std::stod(value_);
+
+		//	if (std::is_same_v<T, float>)
+		//		return std::stof(value_);
+
+		//	if (std::is_same_v<T, int>)
+		//		return std::stoi(value_);
+
+		//	/*if (std::is_same_v<T, std::string>)
+		//		return value_;*/
+		//};
 		
 	private:
 		friend class GeneratorOptions;
 
-		GeneratorOption(int name, const std::string& def)
+		GeneratorOption(std::string name, const std::string& def)
 		{
 			name_ = name;
 			value_ = def;
 		}
 
-		GeneratorOption(int name)
+		GeneratorOption(std::string name)
 		{
 			name_ = name;
 			value_ = "";
 		}
 
 		std::string value_;
-		int name_;
+		std::string name_;
 
 	};
 
@@ -71,34 +96,34 @@ namespace AnalysisGenerator
 		{
 		}
 
-		const std::shared_ptr <GeneratorOption>& addOption(int name, std::string value)
+		const std::shared_ptr <GeneratorOption>& addOption(std::string name, std::string value)
 		{
 			GeneratorOption* opt = new GeneratorOption(name,value);
 			std::shared_ptr<GeneratorOption> ptr;
 			ptr.reset(opt);
-			opts_.insert(std::pair<int, std::shared_ptr<GeneratorOption>>(name, ptr));
+			opts_.insert(std::pair(name, ptr));
 			return opts_.find(name)->second;
 		}
 
-		const std::shared_ptr <GeneratorOption>& addOption(int name, int value)
+		const std::shared_ptr <GeneratorOption>& addOption(std::string name, int value)
 		{
 			return addOption(name, std::to_string(value));
 		}
 
-		const std::shared_ptr <GeneratorOption>& addOption(int name, double value)
+		const std::shared_ptr <GeneratorOption>& addOption(std::string name, double value)
 		{
 			return addOption(name, std::to_string(value));
 		}
 
-		const std::shared_ptr <GeneratorOption>& addOption(int name, float value)
+		const std::shared_ptr <GeneratorOption>& addOption(std::string name, float value)
 		{
 			return addOption(name, std::to_string(value));
 		}
 
-		bool hasOption(int name) { return opts_.find(name) == opts_.end(); }
-		const std::shared_ptr <GeneratorOption>& getOption(int name) { return opts_.find(name)->second; }
-	private:
-		std::map<int, std::shared_ptr<GeneratorOption>> opts_;
-		std::map<int, std::string> names_;
+		bool hasOption(std::string name) { return opts_.find(name) == opts_.end(); }
+		const std::shared_ptr <GeneratorOption>& getOption(std::string name) { return opts_.find(name)->second; }
+	//private:
+		std::map<std::string, std::shared_ptr<GeneratorOption>> opts_;
+		std::map<std::string, std::string> names_;
 	};
 }

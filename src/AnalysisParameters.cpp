@@ -45,7 +45,7 @@ std::shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(shared_ptr<A
 shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, double lb, double ub)
 {
 	if (params_.find(name) == params_.end())
-		return addParameter(generator_.createParameter(name, lb, ub));
+		return addParameter(AnalysisParameterCreator::createParameter(name, lb, ub));
 	else
 		return {};
 }
@@ -53,7 +53,7 @@ shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, doub
 shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, const vector<double>& values)
 {
 	if (params_.find(name) == params_.end())
-		return addParameter(generator_.createParameter(name, values));
+		return addParameter(AnalysisParameterCreator::createParameter(name, values));
 	else
 		return {};
 }
@@ -61,7 +61,7 @@ shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, cons
 shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, double lb, double ub, int dim)
 {
 	if (params_.find(name) == params_.end())
-		return addParameter(generator_.createParameter(name, lb, ub, dim));
+		return addParameter(AnalysisParameterCreator::createParameter(name, lb, ub, dim));
 	else
 		return {};
 }
@@ -69,7 +69,7 @@ shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, doub
 shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, const vector<double>& values, int dim)
 {
 	if (params_.find(name) == params_.end())
-		return addParameter(generator_.createParameter(name, values, dim));
+		return addParameter(AnalysisParameterCreator::createParameter(name, values, dim));
 	else
 		return {};
 }
@@ -83,8 +83,7 @@ shared_ptr<AnalysisParameter> AnalysisParameters::getParameter(int index)
 shared_ptr<AnalysisParameter> AnalysisParameters::getParameter(string name)
 {
 	auto param = params_.find(name);
-	shared_ptr<AnalysisParameter> temp;
-	return param != params_.end() ? param->second : temp;
+	return param != params_.end() ? param->second : shared_ptr<AnalysisParameter>{};
 }
 
 const vector<double> AnalysisParameter::createValues(double lb, double ub, double step )

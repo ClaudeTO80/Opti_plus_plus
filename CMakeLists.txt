@@ -1,6 +1,25 @@
-cmake_minimum_required(VERSION 2.8)
-project(AnalysisLib)
+cmake_minimum_required(VERSION 3.13.2)
+
+if (POLICY CMP0048)
+  cmake_policy(SET CMP0048 NEW)
+endif (POLICY CMP0048)
+
+project(AnalysisLib VERSION 0.1.0.0)
+
 include(CTest)
+
+set(PROJECT_VERSION_STRING "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}.${PROJECT_VERSION_TWEAK}")
+message( "Compiling version ${PROJECT_VERSION_STRING}" )
+message( "Generating file src/version.h" )
+
+file(WRITE src/version.h
+"#define PRJ_VERSION ${PROJECT_VERSION_STRING}\n\
+#define PRJ_VERSION_MAJOR ${PROJECT_VERSION_MAJOR}\n\
+#define PRJ_VERSION_MINOR ${PROJECT_VERSION_MINOR}\n\
+#define PRJ_VERSION_PATCH ${PROJECT_VERSION_PATCH}\n\
+#define PRJ_VERSION_TWEAK ${PROJECT_VERSION_TWEAK}\n" )
+#add_test(toDoTest toDo)
+
 #OPTION(BUILD_TYPE "Build tests." OFF)
 
 SET(BUILD_TYPE "Static" CACHE STRING "Static")
@@ -46,8 +65,10 @@ ENDIF()
 include_directories("src")
 if(BUILD_TESTING)
 	file(GLOB testFullFact_src "test/src/*.cpp")
+	
 	add_executable(testFullFact  ${testFullFact_src})
 	include_directories("../../src")
 	target_link_libraries(testFullFact AnalysisLib) 
 endif()
-#add_test(toDoTest toDo)
+
+#configure_file(version.h.in version.h)

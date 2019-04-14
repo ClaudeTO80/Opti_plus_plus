@@ -46,6 +46,17 @@ bool FullFactorial::generateIndicesMatrix()
 
 bool FullFactorial::generate()
 {
+	auto params=block_->getParameters();
+
+	for (auto& curr : params)
+	{
+		auto temp = opts_->getOption(curr->name());
+		if (temp.get())
+			levels_.push_back(temp->value<int>());
+		else
+			levels_.push_back((int)curr->values().size());
+	}
+
 	int numVars = (int)levels_.size();
 	generateIndicesMatrix();
 
@@ -54,15 +65,22 @@ bool FullFactorial::generate()
 	values.reserve(numVars);
 	for (int i = 0; i < numVars; ++i)
 	{
+		auto currParam = params[i];
 		vector<double> currVar;
 		currVar.reserve(levels_[i]);
-		auto min = bounds_[i].first;
-		auto max = bounds_[i].second;
-		int numDiscr = levels_[i];
-		double step = (max - min) / (numDiscr-1);
-		
-		for (int j = 0; j < numDiscr; ++j)
-			currVar.push_back(min + step * j);
+
+		if (currParam->values().empty())
+		{
+			auto min = bounds_[i].first;
+			auto max = bounds_[i].second;
+			int numDiscr = levels_[i];
+			double step = (max - min) / (numDiscr - 1);
+
+			for (int j = 0; j < numDiscr; ++j)
+				currVar.push_back(min + step * j);
+		}
+		else
+			currVar = currParam->values();
 
 		values.push_back(currVar);
 	}
