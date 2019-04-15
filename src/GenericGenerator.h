@@ -19,7 +19,7 @@ namespace AnalysisGenerator
 			std::ios_base::openmode mode = std::ios_base::out,
 			std::string separator = " ");
 
-		void setVarNames(const std::vector<std::string>& names)
+		/*void setVarNames(const std::vector<std::string>& names)
 		{
 			varNames_ = names;
 		}
@@ -27,7 +27,7 @@ namespace AnalysisGenerator
 		void setVarName(const std::string& name)
 		{
 			varNames_.push_back(name);
-		}
+		}*/
 
 		const std::vector<std::vector<double>>& getMatrix() { return matrix_; }
 		virtual bool generate() = 0;
@@ -35,7 +35,7 @@ namespace AnalysisGenerator
 
 	protected:
 		std::vector<std::vector<double>> matrix_;
-		std::vector<std::string> varNames_;
-		GeneratorOptions opts_;
+		//std::vector<std::string> varNames_;
+		GeneratorOptions genopts_;
 	};
 }

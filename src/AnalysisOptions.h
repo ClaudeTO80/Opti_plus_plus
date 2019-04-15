@@ -92,16 +92,15 @@ namespace AnalysisGenerator
 	public:
 
 
-		GeneratorOptions()
-		{
-		}
+		GeneratorOptions(){}
 
 		const std::shared_ptr <GeneratorOption>& addOption(std::string name, std::string value)
 		{
 			GeneratorOption* opt = new GeneratorOption(name,value);
-			std::shared_ptr<GeneratorOption> ptr;
-			ptr.reset(opt);
+			std::shared_ptr<GeneratorOption> ptr(opt);
+			//ptr.reset(opt);
 			opts_.insert(std::pair(name, ptr));
+			names_.push_back(name);
 			return opts_.find(name)->second;
 		}
 
@@ -124,6 +123,6 @@ namespace AnalysisGenerator
 		const std::shared_ptr <GeneratorOption>& getOption(std::string name) { return opts_.find(name)->second; }
 	//private:
 		std::map<std::string, std::shared_ptr<GeneratorOption>> opts_;
-		std::map<std::string, std::string> names_;
+		std::vector<std::string> names_;
 	};
 }

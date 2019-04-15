@@ -34,13 +34,15 @@ namespace AnalysisGenerator
 
 			for (auto& curr : params)
 				if (curr->values().empty())
-					opts_->addOption(curr->name(), 10);
+				{
+					genopts_.addOption(curr->name(), 10);
+				}
 		}
 		
 	private:
 		std::vector<std::vector<int>> matrixIndices_;
 		std::vector<int> levels_;
-		std::shared_ptr<FullFactorialOptions> opts_;
+		//std::shared_ptr<FullFactorialOptions> ffopts_;
 
 		void setLevels(const std::vector<int>& levels);
 		

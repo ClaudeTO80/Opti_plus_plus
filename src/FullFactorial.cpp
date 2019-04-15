@@ -50,11 +50,13 @@ bool FullFactorial::generate()
 
 	for (auto& curr : params)
 	{
-		auto temp = opts_->getOption(curr->name());
+		auto temp = genopts_.getOption(curr->name());
 		if (temp.get())
 			levels_.push_back(temp->value<int>());
 		else
 			levels_.push_back((int)curr->values().size());
+
+		
 	}
 
 	int numVars = (int)levels_.size();
@@ -71,8 +73,8 @@ bool FullFactorial::generate()
 
 		if (currParam->values().empty())
 		{
-			auto min = bounds_[i].first;
-			auto max = bounds_[i].second;
+			auto min = currParam->lb();// bounds_[i].first;
+			auto max = currParam->ub();//bounds_[i].second;
 			int numDiscr = levels_[i];
 			double step = (max - min) / (numDiscr - 1);
 

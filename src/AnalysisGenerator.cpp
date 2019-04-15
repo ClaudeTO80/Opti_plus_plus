@@ -20,8 +20,8 @@ bool Generator::dumpMatrix(	ostream& os,
 	{
 		for (int j = 0; j < numVars; ++j)
 		{
-			if (j < (int)varNames_.size())
-				os << varNames_[j].c_str() << separator.c_str();
+			if (j < (int)genopts_.names_.size())
+				os << genopts_.names_[j].c_str() << separator.c_str();
 
 			else
 				os << "var_" + to_string(j) << separator.c_str();
