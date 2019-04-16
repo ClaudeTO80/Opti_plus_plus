@@ -1,6 +1,7 @@
 #pragma once
 #include "AnalysisParameters.h"
 #include "AnalysisSample.h"
+#include "AnalysisObjectives.h"
 
 namespace AnalysisGenerator
 {
@@ -52,10 +53,24 @@ namespace AnalysisGenerator
 			return params_.addParameter(name, values, dim);
 		}
 
+		std::shared_ptr<AnalysisObjective> addObjective(std::string name, AnalysisObjective::ObjDir dir)
+		{
+			return objs_.addObjective(name, dir);
+		}
+
 		const std::vector<std::shared_ptr<AnalysisParameter>>& getParameters() { return params_.getParameters(); }
+
+		const double getValue(std::string name,int pos)
+		{
+			int index=params_.findElement(name);
+			samples_.get(pos)->values_[index];
+		}
+
+		size_t getNumSamples() { return samples_.dim(); }
 
 	private:
 		AnalysisParameters params_;
+		AnalysisObjectives objs_;
 		SamplesSet samples_;
 	};
 }

@@ -195,9 +195,21 @@ namespace AnalysisGenerator
 		std::shared_ptr<AnalysisParameter> getParameter(int index);
 		std::shared_ptr<AnalysisParameter> getParameter(std::string name);
 		const std::vector<std::shared_ptr<AnalysisParameter>>& getParameters() { return paramsVect_; }
+		const int findElement(std::string name)
+		{
+			auto temp = pos_.find(name);
+
+			if (temp == pos_.end())
+				return -1;
+
+			else
+				return temp->second;
+		}
 
 		std::vector<std::shared_ptr<AnalysisParameter>> paramsVect_;
 		std::map<std::string, std::shared_ptr<AnalysisParameter>> params_;
+		std::map<std::string, int> pos_;
+
 	};
 }
 

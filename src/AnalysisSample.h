@@ -26,7 +26,7 @@ namespace AnalysisGenerator
 	{
 		friend class AnalysisParametersBlock;
 	public:
-		
+		size_t dim() {return samples_.size();}
 
 	private:
 		
