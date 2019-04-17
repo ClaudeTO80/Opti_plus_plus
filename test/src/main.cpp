@@ -28,13 +28,26 @@ int main()
 	block.addParameter("x", 0, 1);
 	block.addParameter("y", -1, 1);
 	block.addParameter("z", 0, 10);
+
+	block.addObjective("o1", AnalysisObjective::MIN_);
+	block.addObjective("o2", AnalysisObjective::MAX_);
 	
+	function<bool(shared_ptr<AnalysisParametersBlock>&, int)> objf = [&](shared_ptr<AnalysisParametersBlock>& block, int index)->bool
+	{
+		block->getValue("x", index);
+		block->getValue("y", index);
+		block->getValue("z", index);
+
+		return true;
+	};
 	auto temp = make_shared< AnalysisParametersBlock>(block);
 	FullFactorial ff(temp);
-	ff.generate();
+	/*ff.generate();
 	auto mm=ff.getMatrix();
-	ff.dumpMatrix(R"(C:\tmp\matrix.dat)");
-	Model model;
+	ff.dumpMatrix(R"(C:\tmp\matrix.dat)");*/
+	Model model(make_shared<Generator>(ff));
+	model.run();
+	//model.setGenerator()
 	//FullFactorialDoeGenerator sgdg(bounds);
 	//sgdg.setLevels(levels);
 	//auto ret=sgdg.generateMatrix();
