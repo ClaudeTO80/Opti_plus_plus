@@ -28,5 +28,6 @@ std::shared_ptr<AnalysisObjective> AnalysisObjectives::addObjective(shared_ptr<A
 
 std::shared_ptr<AnalysisObjective> AnalysisObjectives::addObjective(std::string name, AnalysisObjective::ObjDir dir)
 {
-	return addObjective(AnalysisObjectiveCreator::createObjective(name, dir));
+	auto temp = AnalysisObjectiveCreator::createObjective(name, dir);
+	return addObjective(temp);
 }
