@@ -55,6 +55,7 @@ namespace AnalysisGenerator
 	public:
 				
 		AnalysisObjectives() {}
+		int dim() {	return objsVect_.size();}
 	private:
 		
 		friend class AnalysisParametersBlock;

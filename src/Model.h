@@ -18,6 +18,9 @@ namespace AnalysisGenerator
 
 		void run()
 		{
+			generator_->generate();
+			auto mat=generator_->getMatrix();
+
 			auto dim = block_->getNumSamples();
 
 			for (int i = 0; i < dim; ++i)

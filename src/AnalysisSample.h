@@ -47,6 +47,12 @@ namespace AnalysisGenerator
 			return true;
 		}
 
+		bool add(std::vector<double> sample)
+		{
+			samples_.push_back(sample);
+			return true;
+		}
+
 		std::shared_ptr<Sample> get(int i)
 		{
 			if (i >= numElems_)

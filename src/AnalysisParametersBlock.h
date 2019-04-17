@@ -68,9 +68,41 @@ namespace AnalysisGenerator
 
 		size_t getNumSamples() { return samples_.dim(); }
 
+		bool addSample(const std::vector<double>& value) 
+		{ 
+			auto ret=samples_.add(std::make_shared<Sample>(new Sample(value))); 
+
+			if (ret)
+			{
+				std::vector<double> currObjs;
+				currObjs.reserve(objs_.dim());
+
+				for (int i = 0; i < objs_.dim(); ++i)
+				{
+					currObjs.push_back(objs_.)
+				}
+
+				samplesObjs_.add(std::make_shared<Sample>(new Sample(currObjs)));
+			}
+			return ret;
+		}
+
+		unsigned int addSamples(const std::vector<std::vector<double>>& values)
+		{ 
+			unsigned int num= 0;
+
+			std::for_each(values.begin(), values.end(), [&](const std::vector<double>& value)
+			{
+				num += (int)addSample(value);
+			});
+
+			return num;
+		}
+
 	private:
 		AnalysisParameters params_;
 		AnalysisObjectives objs_;
 		SamplesSet samples_;
+		SamplesSet samplesObjs_;
 	};
 }
