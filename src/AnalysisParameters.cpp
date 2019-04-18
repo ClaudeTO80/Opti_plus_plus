@@ -46,7 +46,10 @@ std::shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(shared_ptr<A
 shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, double lb, double ub)
 {
 	if (params_.find(name) == params_.end())
-		return addParameter(AnalysisParameterCreator::createParameter(name, lb, ub));
+	{
+		auto temp = AnalysisParameterCreator::createParameter(name, lb, ub);
+		return addParameter(temp);
+	}
 	else
 		return {};
 }
@@ -54,7 +57,10 @@ shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, doub
 shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, const vector<double>& values)
 {
 	if (params_.find(name) == params_.end())
-		return addParameter(AnalysisParameterCreator::createParameter(name, values));
+	{
+		auto temp = AnalysisParameterCreator::createParameter(name, values);
+		return addParameter(temp);
+	}
 	else
 		return {};
 }
@@ -62,7 +68,11 @@ shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, cons
 shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, double lb, double ub, int dim)
 {
 	if (params_.find(name) == params_.end())
-		return addParameter(AnalysisParameterCreator::createParameter(name, lb, ub, dim));
+	{
+		auto temp = AnalysisParameterCreator::createParameter(name, lb, ub, dim);
+		return addParameter(temp);
+	}
+
 	else
 		return {};
 }
@@ -70,7 +80,10 @@ shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, doub
 shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(string name, const vector<double>& values, int dim)
 {
 	if (params_.find(name) == params_.end())
-		return addParameter(AnalysisParameterCreator::createParameter(name, values, dim));
+	{
+		auto temp = AnalysisParameterCreator::createParameter(name, values, dim);
+		return addParameter(temp);
+	}
 	else
 		return {};
 }

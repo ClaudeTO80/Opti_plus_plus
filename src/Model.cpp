@@ -1,4 +1,3 @@
-#pragma once
 #include "Model.h"
 
 using namespace std;
@@ -27,7 +26,7 @@ void Model::run()
 	block_->addSamples(mat);
 	auto dim = block_->getNumSamples();
 
-	for (int i = 0; i < dim; ++i)
+	for (int i = 0; i < (int)dim; ++i)
 	{
 		if (!preFeas_ || preFeas_(block_, i))
 		{

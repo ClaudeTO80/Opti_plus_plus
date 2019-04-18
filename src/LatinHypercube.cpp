@@ -54,7 +54,7 @@ bool LatinHypercube::generate()
 
 	generateIndicesMatrix();
 	int numVars = (int)bounds_.size();
-	int locSamples = numSamples_;
+	//int locSamples = numSamples_;
 	vector<vector<double>> tempSamples;
 	tempSamples.reserve(numVars);
 

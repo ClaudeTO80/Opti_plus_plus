@@ -1,4 +1,3 @@
-#pragma once
 #include "AnalysisSample.h"
 
 using namespace std;
@@ -12,7 +11,7 @@ Sample::Sample(const vector<double>& values)
 
 bool Sample::setValue(double value,int index)
 {
-	if (index < 0 || index >= values_.size())
+	if (index < 0 || index >= (int)values_.size())
 		return false;
 
 	values_[index] = value;
@@ -29,7 +28,7 @@ void SamplesSet::capacity(size_t dim) { samples_.reserve(dim); }
 	
 bool SamplesSet::add(shared_ptr<Sample> sample, int pos)
 {
-	if (pos >= samples_.size())
+	if (pos >= (int)samples_.size())
 		samples_.resize(pos+1);
 
 	samples_.insert(begin(samples_) + pos, sample);
@@ -62,7 +61,7 @@ bool SamplesSet::add(vector<double> sample)
 
 shared_ptr<Sample> SamplesSet::get(int i)
 {
-	if (i >= samples_.size())
+	if (i >= (int)samples_.size())
 		return {};
 	else
 		return samples_[i];

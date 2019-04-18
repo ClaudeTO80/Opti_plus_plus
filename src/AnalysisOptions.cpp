@@ -1,4 +1,3 @@
-#pragma once
 #include "AnalysisOptions.h"
 
 using namespace AnalysisGenerator;
@@ -26,7 +25,7 @@ const std::shared_ptr <GeneratorOption>& GeneratorOptions::addOption(std::string
 	GeneratorOption* opt = new GeneratorOption(name,value);
 	std::shared_ptr<GeneratorOption> ptr(opt);
 	//ptr.reset(opt);
-	opts_.insert(std::pair(name, ptr));
+	opts_.insert(make_pair(name, ptr));
 	names_.push_back(name);
 	return opts_.find(name)->second;
 }

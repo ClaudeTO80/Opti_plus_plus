@@ -4,6 +4,7 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <memory>
 
 namespace AnalysisGenerator
 {
@@ -57,7 +58,7 @@ namespace AnalysisGenerator
 		std::string getName(int index)
 		{
 			
-			if (index >= objsVect_.size() || index<0)
+			if (index >= (int)objsVect_.size() || index<0)
 				return "";
 
 			return get(index)->name();
@@ -66,8 +67,8 @@ namespace AnalysisGenerator
 		std::shared_ptr<AnalysisObjective> get(int index)
 		{
 
-			if (index >= objsVect_.size() || index < 0)
-				return std::shared_ptr<AnalysisObjective> {};
+			if (index >= (int)objsVect_.size() || index < 0)
+				return {};
 
 			return objsVect_[index];
 		}

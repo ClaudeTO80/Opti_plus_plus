@@ -7,6 +7,7 @@
 #include "Model.h"
 #include "AnalysisGenerator.h"
 #include "AnalysisParameters.h"
+#include "AnalysisConstraints.h"
 
 using namespace std;
 using namespace AnalysisGenerator;
@@ -22,6 +23,9 @@ int main()
 	block.addObjective("o1", AnalysisObjective::MIN_);
 	block.addObjective("o2", AnalysisObjective::MAX_);
 	
+	block.addConstraint("c1", -1, 1);
+	block.addConstraint("c2", AnalysisConstraint::LB_,1);
+
 	function<bool(shared_ptr<AnalysisParametersBlock>&, int)> objf = [&](shared_ptr<AnalysisParametersBlock>& block, int index)->bool
 	{
 		auto x=block->getValue("x", index);
@@ -30,6 +34,10 @@ int main()
 
 		block->setObjective("o1", x + y, index);
 		block->setObjective("o2", z - y, index);
+
+		block->setConstraint("c1", x + y, index);
+		block->setConstraint("c2", z - y, index);
+
 		return true;
 	};
 	auto temp = make_shared< AnalysisParametersBlock>(block);

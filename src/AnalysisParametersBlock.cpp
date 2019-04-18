@@ -1,4 +1,3 @@
-#pragma once
 #include "AnalysisParametersBlock.h"
 
 using namespace std;
@@ -54,6 +53,21 @@ shared_ptr<AnalysisObjective> AnalysisParametersBlock::addObjective(string name,
 	return objs_.addObjective(name, dir);
 }
 
+std::shared_ptr<AnalysisConstraint> AnalysisParametersBlock::addConstraint(std::string name, double lb, double ub)
+{
+	return constr_.addConstraint(name, lb, ub);
+}
+
+std::shared_ptr<AnalysisConstraint> AnalysisParametersBlock::addConstraint(std::string name, AnalysisConstraint::ConstrType type, double value)
+{
+	return constr_.addConstraint(name, type, value);
+}
+
+std::shared_ptr<AnalysisConstraint> AnalysisParametersBlock::addConstraint(std::string name, std::vector<double> values)
+{
+	return constr_.addConstraint(name, values);
+}
+
 const vector<shared_ptr<AnalysisParameter>>& AnalysisParametersBlock::getParameters() { return params_.getParameters(); }
 
 bool AnalysisParametersBlock::setObjective(string name, double value,int index)
@@ -64,6 +78,17 @@ bool AnalysisParametersBlock::setObjective(string name, double value,int index)
 		return false;
 
 	auto sample = samplesObjs_.get(index);
+	return sample->setValue(value, pos);
+}
+
+bool AnalysisParametersBlock::setConstraint(string name, double value, int index)
+{
+	auto pos = constr_.getIndex(name);
+
+	if (pos == -1)
+		return false;
+
+	auto sample = samplesConstr_.get(index);
 	return sample->setValue(value, pos);
 }
 
@@ -78,7 +103,7 @@ const double AnalysisParametersBlock::getValue(string name,int pos)
 	if (!sample.get())
 		return -1e30;
 
-	if (index >= sample->values_.size())
+	if (index >= (int)sample->values_.size())
 		return -1e30;
 
 	return sample->values_[index];
@@ -98,7 +123,7 @@ bool AnalysisParametersBlock::addSample(const vector<double>& value)
 		vector<double> currObjs;
 		currObjs.reserve(objs_.dim());
 
-		for (int i = 0; i < objs_.dim(); ++i)
+		for (int i = 0; i < (int)objs_.dim(); ++i)
 		{
 			auto dir = objs_.get(i)->dir();
 			if (dir == AnalysisObjective::MIN_)
@@ -108,10 +133,14 @@ bool AnalysisParametersBlock::addSample(const vector<double>& value)
 				currObjs.push_back(-1e30);
 		}
 
-		/*auto temp = new Sample(currObjs);
-		shared_ptr<Sample> tt(new Sample(currObjs));
-		tt.reset(temp);*/
+		vector<double> currConstr;
+		currConstr.reserve(constr_.dim());
+
+		for (int i = 0; i < (int)constr_.dim(); ++i)
+			currConstr.push_back(0);
+
 		samplesObjs_.add(shared_ptr<Sample>(new Sample(currObjs)));
+		samplesConstr_.add(shared_ptr<Sample>(new Sample(currConstr)));
 	}
 	return ret;
 }

@@ -8,7 +8,7 @@ namespace AnalysisGenerator::Utils
 {
 	template<
 		typename T,
-		typename = typename std::enable_if_t<std::is_arithmetic_v<T> || std::is_literal_type_v<T>>>
+		typename = typename std::enable_if_t<std::is_arithmetic<T>::value || std::is_literal_type<T>::value>>
 	std::string Stringify(const std::vector<T>& value)
 	{
 		std::string out("");
@@ -25,7 +25,7 @@ namespace AnalysisGenerator::Utils
 
 	template<
 		typename T,
-		typename = typename std::enable_if_t<std::is_arithmetic_v<T>, T>>
+		typename = typename std::enable_if_t<std::is_arithmetic<T>::value, T>>
 	std::string Stringify(T value)
 	{
 		return std::to_string(value);
