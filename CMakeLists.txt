@@ -10,9 +10,9 @@ include(CTest)
 
 set(PROJECT_VERSION_STRING "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}.${PROJECT_VERSION_TWEAK}")
 message( "Compiling version ${PROJECT_VERSION_STRING}" )
-message( "Generating file src/version.h" )
+message( "Generating file include/version.h" )
 
-file(WRITE src/version.h
+file(WRITE include/version.h
 "#define PRJ_VERSION ${PROJECT_VERSION_STRING}\n\
 #define PRJ_VERSION_MAJOR ${PROJECT_VERSION_MAJOR}\n\
 #define PRJ_VERSION_MINOR ${PROJECT_VERSION_MINOR}\n\
@@ -62,13 +62,18 @@ set_target_properties( AnalysisLibShared
 )
 ENDIF()
 
-include_directories("src")
+include_directories("include")
 if(BUILD_TESTING)
-	file(GLOB testFullFact_src "test/src/*.cpp")
-	
+	file(GLOB testFullFact_src "test/test_FullFactorial.cpp")
 	add_executable(testFullFact  ${testFullFact_src})
-	include_directories("../../src")
+	include_directories("../../include")
 	target_link_libraries(testFullFact AnalysisLib) 
+	
+	file(GLOB testLatinHyper_src "test/test_LatinHypercube.cpp")
+	add_executable(testLatinHyper  ${testLatinHyper_src})
+	include_directories("../../include")
+	target_link_libraries(testLatinHyper AnalysisLib) 
+	
 endif()
 
 #configure_file(version.h.in version.h)
