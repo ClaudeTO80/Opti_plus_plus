@@ -10,7 +10,7 @@ bool Generator::dumpMatrix(	ostream& os,
 							bool headers, 
 							string separator)
 {  
-	if (matrix_.size() == 0)
+	if (matrix_.empty())
 		return false;
 
 	int numSamples = (int)matrix_.size();

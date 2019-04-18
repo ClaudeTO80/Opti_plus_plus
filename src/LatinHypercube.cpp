@@ -9,6 +9,7 @@ using namespace AnalysisGenerator;
 
 bool LatinHypercube::generateIndicesMatrix()
 {
+
 	int numVars = (int)bounds_.size();
 	int locSamples = numSamples_;
 	vector<vector<int>> subsets;
@@ -43,6 +44,14 @@ bool LatinHypercube::generateIndicesMatrix()
 
 bool LatinHypercube::generate()
 {
+	numSamples_ = genopts_.getOption("numSamples")->value<int>();
+
+	auto params = block_->getParameters();
+	bounds_.reserve(params.size());
+
+	for (auto& curr : params)
+		bounds_.push_back(make_pair(curr->lb(), curr->ub()));
+
 	generateIndicesMatrix();
 	int numVars = (int)bounds_.size();
 	int locSamples = numSamples_;
@@ -52,7 +61,7 @@ bool LatinHypercube::generate()
 	for_each(begin(bounds_), end(bounds_), [&](pair<double, double> &curr)
 	{
 		vector<double> currSample;
-		currSample.reserve(numSamples_ + 1);
+		currSample.reserve(numSamples_+1);
 		double min = curr.first;
 		double max = curr.second;
 		double step = (max - min) / numSamples_;

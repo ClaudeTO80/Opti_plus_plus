@@ -55,8 +55,6 @@ bool FullFactorial::generate()
 			levels_.push_back(temp->value<int>());
 		else
 			levels_.push_back((int)curr->values().size());
-
-		
 	}
 
 	int numVars = (int)levels_.size();
