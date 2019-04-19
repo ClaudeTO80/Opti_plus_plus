@@ -1,4 +1,5 @@
 #include "Model.h"
+#include "AnalysisConstraints.h"
 
 using namespace std;
 using namespace AnalysisGenerator;
@@ -28,8 +29,19 @@ void Model::run()
 
 	for (int i = 0; i < (int)dim; ++i)
 	{
-		if (!preFeas_ || preFeas_(block_, i))
+		auto ret = objf_(block_, i);
+
+		if (ret)
 		{
+			vector<shared_ptr<AnalysisConstraint>> constr = block_->getConstraints();
+			auto sampleConstr = block_->getSampleConstraints(i);
+			int numConstr=constr.size();
+
+			for (int j = 0; j < numConstr; ++j)
+			{
+				constr[j]->isSatisfed(sampleConstr[j]);
+			}
+
 			if (objf_(block_, i) && postFeas_)
 				postFeas_(block_, i);
 		}

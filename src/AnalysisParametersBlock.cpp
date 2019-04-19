@@ -8,6 +8,16 @@ shared_ptr<Sample> AnalysisParametersBlock::getSample(int i)
 	return samples_.get(i);
 }
 
+std::shared_ptr<Sample> AnalysisParametersBlock::getSampleObjectives(int i)
+{
+	return samplesObjs_.get(i);
+}
+
+std::shared_ptr<Sample> AnalysisParametersBlock::getSampleConstraints(int i)
+{
+	return samplesConstr_.get(i);
+}
+
 bool AnalysisParametersBlock::addSample(shared_ptr<Sample> sample)
 {
 	return samples_.add(sample);
@@ -69,6 +79,8 @@ std::shared_ptr<AnalysisConstraint> AnalysisParametersBlock::addConstraint(std::
 }
 
 const vector<shared_ptr<AnalysisParameter>>& AnalysisParametersBlock::getParameters() { return params_.getParameters(); }
+const vector<shared_ptr<AnalysisObjective>>& AnalysisParametersBlock::getObjectives() { return objs_.getObjectives(); }
+const vector<shared_ptr<AnalysisConstraint>>& AnalysisParametersBlock::getConstraints() { return constr_.getConstraints(); }
 
 bool AnalysisParametersBlock::setObjective(string name, double value,int index)
 {
