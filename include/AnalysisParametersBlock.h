@@ -12,6 +12,8 @@ namespace AnalysisGenerator
 	{
 	public:
 		std::shared_ptr<Sample> getSample(int i);
+		std::shared_ptr<Sample> getSampleObjectives(int i);
+		std::shared_ptr<Sample> getSampleConstraints(int i);
 		bool addSample(std::shared_ptr<Sample> sample);
 		bool addSamples(const std::vector<std::shared_ptr<Sample>>& samples);
 		bool addParameter(std::shared_ptr<AnalysisParameter> param);
@@ -25,6 +27,8 @@ namespace AnalysisGenerator
 		std::shared_ptr<AnalysisConstraint> addConstraint(std::string name, std::vector<double> values);
 		
 		const std::vector<std::shared_ptr<AnalysisParameter>>& getParameters();
+		const std::vector<std::shared_ptr<AnalysisObjective>>& getObjectives();
+		const std::vector<std::shared_ptr<AnalysisConstraint>>& getConstraints();
 		bool setObjective(std::string name, double value,int index);
 		bool setConstraint(std::string name, double value, int index);
 		const double getValue(std::string name,int pos);

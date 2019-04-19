@@ -32,6 +32,26 @@ namespace AnalysisGenerator
 		double lb();
 		double ub();
 		std::vector<double> values();
+		bool isSatisfed(double value)
+		{
+			switch (type_)
+			{
+			case AnalysisGenerator::AnalysisConstraint::LB_:
+				return value >= lb_;
+				break;
+			case AnalysisGenerator::AnalysisConstraint::UB_:
+				return value <= ub_;
+				break;
+			case AnalysisGenerator::AnalysisConstraint::DB_:
+				return  value >= lb_ && value <= ub_;
+				break;
+			case AnalysisGenerator::AnalysisConstraint::AV_:
+				return std::find(av_.begin(), av_.end(), value) != av_.end();
+				break;
+			default:
+				break;
+			}
+		}
 
 	private:
 
