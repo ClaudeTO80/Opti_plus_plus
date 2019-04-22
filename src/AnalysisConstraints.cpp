@@ -34,6 +34,11 @@ vector<double> AnalysisConstraint::values()
 		
 AnalysisConstraint::AnalysisConstraint(std::string name, double lb, double ub)
 {
+	if (name.empty())
+		return;
+
+	name_ = name;
+
 	if (lb <= ub)
 	{
 		type_ = AnalysisConstraint::DB_;
@@ -45,6 +50,11 @@ AnalysisConstraint::AnalysisConstraint(std::string name, double lb, double ub)
 
 AnalysisConstraint::AnalysisConstraint(std::string name, ConstrType type, double value)
 {
+	if (name.empty())
+		return;
+
+	name_ = name;
+
 	if (type == AnalysisConstraint::LB_ || type == AnalysisConstraint::UB_)
 	{
 		type_ = type;
@@ -61,6 +71,10 @@ AnalysisConstraint::AnalysisConstraint(std::string name, ConstrType type, double
 
 AnalysisConstraint::AnalysisConstraint(std::string name, std::vector<double> values)
 {
+	if (name.empty())
+		return;
+
+	name_ = name;
 	type_ = AnalysisConstraint::AV_;
 	av_.clear();
 	av_.assign(values.begin(), values.end());

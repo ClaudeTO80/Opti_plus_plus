@@ -46,6 +46,6 @@ int main()
 	model.setBlock(temp);
 	model.setObjf(objf);
 	model.run();
-	model.dumpSamples(R"(C:\tmp\samples.txt)");
+	model.dumpSamples(R"(C:\tmp\samples.txt)", 0);// , OPTIPP_DUMP_FEAS | OPTIPP_DUMP_PARETO);
 	return 0;
 }

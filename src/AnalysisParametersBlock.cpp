@@ -186,7 +186,7 @@ unsigned int AnalysisParametersBlock::addSamples(const vector<vector<double>>& v
 }
 
 bool AnalysisParametersBlock::dumpSamples(	const string& fileName,
-											bool feasibileOnly,
+											int opts,
 											bool headers,
 											ios_base::openmode mode,
 											string separator)
@@ -206,6 +206,12 @@ bool AnalysisParametersBlock::dumpSamples(	const string& fileName,
 	auto constrs = constr_.getConstraints();
 	int numConstr = (int)constrs.size();
 
+	bool feasibileOnly	= opts & OPTIPP_DUMP_FEAS;
+	bool paretoOnly		= opts & OPTIPP_DUMP_PARETO;
+
+	if (paretoOnly)
+		evalParetoFront();
+
 	if (headers)
 	{
 		ofs << "SampleIndex" << separator;
@@ -224,6 +230,8 @@ bool AnalysisParametersBlock::dumpSamples(	const string& fileName,
 
 	for (int i = 0; i < numSamples; ++i)
 	{
+		if (paretoOnly && find(paretoSols_.begin(), paretoSols_.end(), i) == paretoSols_.end())
+			continue;
 
 		if (!feasibileOnly || feasibile_[i])
 		{

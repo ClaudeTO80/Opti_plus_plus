@@ -53,9 +53,9 @@ void Model::run()
 	return;
 }
 
-void Model::dumpSamples(const std::string& filename)
+void Model::dumpSamples(const std::string& filename,int opts)
 {
-	block_->dumpSamples(filename);
+	block_->dumpSamples(filename,opts);
 	return;
 }
 

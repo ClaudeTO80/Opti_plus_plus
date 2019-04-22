@@ -15,7 +15,7 @@ namespace AnalysisGenerator
 		void setGenerator(std::shared_ptr<Generator>& generator);
 		void setBlock(std::shared_ptr<AnalysisParametersBlock>& block);
 		void run();
-		void dumpSamples(const std::string& filename);
+		void dumpSamples(const std::string& filename, int opts);
 		void setObjf(std::function<bool(std::shared_ptr<AnalysisParametersBlock>&, int)> objf);
 
 	private:

@@ -8,6 +8,9 @@
 
 namespace AnalysisGenerator
 {
+	#define OPTIPP_DUMP_FEAS	0x00000001
+	#define OPTIPP_DUMP_PARETO	0x00000002
+
 	class AnalysisParametersBlock
 	{
 	public:
@@ -37,7 +40,7 @@ namespace AnalysisGenerator
 		bool addSample(const std::vector<double>& value);
 		unsigned int addSamples(const std::vector<std::vector<double>>& values);
 		bool dumpSamples(	const std::string& fileName,
-							bool feasibileOnly=false,
+							int opts = OPTIPP_DUMP_FEAS | OPTIPP_DUMP_PARETO ,
 							bool headers = true,
 							std::ios_base::openmode mode = std::ios_base::out,
 							std::string separator = " ");
@@ -57,6 +60,56 @@ namespace AnalysisGenerator
 			return;
 		}
 
+		void evalParetoFront()
+		{
+			paretoSols_.clear();
+			int numSamples = (int)samples_.dim();
+			int numObjs = (int)objs_.dim();
+
+			for (int i = 0; i < numSamples; ++i)
+			{
+				auto currSampleObjs = samplesObjs_.get(i);
+				bool isPareto = true;
+				for (int j = 0; j < numSamples; ++j)
+				{
+					if (i == j)
+						continue;
+
+					auto tempSampleObjs= samplesObjs_.get(j);
+					
+					for (int k = 0; k < numObjs; ++k)
+					{
+						auto currObj = objs_.get(k);
+						if (currObj->dir() == AnalysisObjective::MIN_)
+						{
+							if (currSampleObjs->values_[k] > tempSampleObjs->values_[k])
+							{
+								isPareto = false;
+								break;
+							}
+						}
+
+						if (currObj->dir() == AnalysisObjective::MAX_)
+						{
+							if (currSampleObjs->values_[k] < tempSampleObjs->values_[k])
+							{
+								isPareto = false;
+								break;
+							}
+						}
+					}
+
+					if (!isPareto)
+						break;
+				}
+
+				if (isPareto)
+					paretoSols_.push_back(i);
+			}
+		}
+
+		
+
 	public:
 		AnalysisParameters params_;
 		AnalysisObjectives objs_;
@@ -66,5 +119,6 @@ namespace AnalysisGenerator
 		SamplesSet samplesConstr_;
 		std::vector<std::vector<bool>> satisfied_;
 		std::vector<bool> feasibile_;
+		std::vector<bool> paretoSols_;
 	};
 }
