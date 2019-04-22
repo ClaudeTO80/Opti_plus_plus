@@ -14,6 +14,7 @@ namespace AnalysisGenerator
 		std::shared_ptr<Sample> getSample(int i);
 		std::shared_ptr<Sample> getSampleObjectives(int i);
 		std::shared_ptr<Sample> getSampleConstraints(int i);
+		double AnalysisParametersBlock::getSampleConstraints(int indSample, int indConstr);
 		bool addSample(std::shared_ptr<Sample> sample);
 		bool addSamples(const std::vector<std::shared_ptr<Sample>>& samples);
 		bool addParameter(std::shared_ptr<AnalysisParameter> param);
@@ -35,10 +36,26 @@ namespace AnalysisGenerator
 		size_t getNumSamples();
 		bool addSample(const std::vector<double>& value);
 		unsigned int addSamples(const std::vector<std::vector<double>>& values);
-		bool dumpSamples(const std::string& fileName,
-			bool headers = true,
-			std::ios_base::openmode mode = std::ios_base::out,
-			std::string separator = " ");
+		bool dumpSamples(	const std::string& fileName,
+							bool feasibileOnly=false,
+							bool headers = true,
+							std::ios_base::openmode mode = std::ios_base::out,
+							std::string separator = " ");
+
+		void setConstraintSatisfied(int indSample, int indConstr, bool value)
+		{
+			if (indSample>=satisfied_.size() ||
+				indConstr>= satisfied_[indSample].size())
+				satisfied_[indSample][indConstr]=value;
+			return;
+		}
+
+		void setSampleFeasibile(int indSample, bool value)
+		{
+			if (indSample >= feasibile_.size())
+				feasibile_[indSample] = value;
+			return;
+		}
 
 	public:
 		AnalysisParameters params_;
@@ -47,5 +64,7 @@ namespace AnalysisGenerator
 		SamplesSet samples_;
 		SamplesSet samplesObjs_;
 		SamplesSet samplesConstr_;
+		std::vector<std::vector<bool>> satisfied_;
+		std::vector<bool> feasibile_;
 	};
 }

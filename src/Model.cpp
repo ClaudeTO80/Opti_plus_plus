@@ -35,11 +35,14 @@ void Model::run()
 		{
 			vector<shared_ptr<AnalysisConstraint>> constr = block_->getConstraints();
 			auto sampleConstr = block_->getSampleConstraints(i);
-			int numConstr=constr.size();
+			int numConstr=(int)constr.size();
 
 			for (int j = 0; j < numConstr; ++j)
 			{
-				constr[j]->isSatisfed(sampleConstr[j]);
+				auto ret = constr[j]->isSatisfed(block_->getSampleConstraints(i, j));
+				block_->setConstraintSatisfied(i, j, ret);
+				if (!ret)
+					block_->setSampleFeasibile(i,false);
 			}
 
 			if (objf_(block_, i) && postFeas_)

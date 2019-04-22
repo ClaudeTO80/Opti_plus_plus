@@ -18,6 +18,15 @@ std::shared_ptr<Sample> AnalysisParametersBlock::getSampleConstraints(int i)
 	return samplesConstr_.get(i);
 }
 
+double AnalysisParametersBlock::getSampleConstraints(int indSample, int indConstr)
+{
+	if (indSample >= samplesConstr_.dim() ||
+		indConstr >= samplesConstr_.get(indSample)->values_.size())
+		return -1e30;
+
+	return samplesConstr_.get(indSample)->values_[indConstr];
+}
+
 bool AnalysisParametersBlock::addSample(shared_ptr<Sample> sample)
 {
 	return samples_.add(sample);
@@ -153,6 +162,12 @@ bool AnalysisParametersBlock::addSample(const vector<double>& value)
 
 		samplesObjs_.add(shared_ptr<Sample>(new Sample(currObjs)));
 		samplesConstr_.add(shared_ptr<Sample>(new Sample(currConstr)));
+
+		feasibile_.push_back(true);
+		vector<bool> temp;
+		temp.resize(constr_.dim());
+		fill(temp.begin(), temp.end(), true);
+		satisfied_.push_back(temp);
 	}
 	return ret;
 }
@@ -171,6 +186,7 @@ unsigned int AnalysisParametersBlock::addSamples(const vector<vector<double>>& v
 }
 
 bool AnalysisParametersBlock::dumpSamples(	const string& fileName,
+											bool feasibileOnly,
 											bool headers,
 											ios_base::openmode mode,
 											string separator)
@@ -181,19 +197,26 @@ bool AnalysisParametersBlock::dumpSamples(	const string& fileName,
 		return false;
 
 	int numSamples = (int)samples_.dim();
-	/*auto params = params_.getParameters();*/
 	auto params = params_.getParameters();
 	int numVars = (int)params.size();
 
 	auto objs = objs_.getObjectives();
 	int numObjs = (int)objs.size();
 
+	auto constrs = constr_.getConstraints();
+	int numConstr = (int)constrs.size();
+
 	if (headers)
 	{
+		ofs << "SampleIndex" << separator;
+
 		for (auto& param: params)
 			ofs << param->name() << separator;
 
 		for (auto& param : objs)
+			ofs << param->name() << separator;
+
+		for (auto& param : constrs)
 			ofs << param->name() << separator;
 
 		ofs << endl;
@@ -201,15 +224,24 @@ bool AnalysisParametersBlock::dumpSamples(	const string& fileName,
 
 	for (int i = 0; i < numSamples; ++i)
 	{
-		auto currSample = samples_.get(i);
-		for (int j = 0; j < numVars; ++j)
-			ofs << currSample->values_[j] << separator;
-				
-		auto currObj = samplesObjs_.get(i);
-		for (int j = 0; j < numObjs; ++j)
-			ofs << currObj->values_[j] << separator;
 
-		ofs << endl;
+		if (!feasibileOnly || feasibile_[i])
+		{
+			ofs << to_string(i+1) << separator;
+			auto currSample = samples_.get(i);
+			for (int j = 0; j < numVars; ++j)
+				ofs << currSample->values_[j] << separator;
+
+			auto currObj = samplesObjs_.get(i);
+			for (int j = 0; j < numObjs; ++j)
+				ofs << currObj->values_[j] << separator;
+
+			auto currConstr = samplesConstr_.get(i);
+			for (int j = 0; j < numConstr; ++j)
+				ofs << currConstr->values_[j] << separator;
+
+			ofs << endl;
+		}
 	}
 
 	return true;

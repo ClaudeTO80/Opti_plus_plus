@@ -49,6 +49,7 @@ namespace AnalysisGenerator
 				return std::find(av_.begin(), av_.end(), value) != av_.end();
 				break;
 			default:
+				return true;
 				break;
 			}
 		}
