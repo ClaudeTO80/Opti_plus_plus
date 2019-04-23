@@ -3,7 +3,7 @@
 #include <vector>
 #include <algorithm>
 #include <type_traits>
-
+#include <math.h>  
 namespace AnalysisGenerator::CurrUtils
 {
 	template<

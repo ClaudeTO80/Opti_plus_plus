@@ -20,8 +20,8 @@ std::shared_ptr<Sample> AnalysisParametersBlock::getSampleConstraints(int i)
 
 double AnalysisParametersBlock::getSampleConstraints(int indSample, int indConstr)
 {
-	if (indSample >= samplesConstr_.dim() ||
-		indConstr >= samplesConstr_.get(indSample)->values_.size())
+	if (indSample >= (int)samplesConstr_.dim() ||
+		indConstr >= (int)samplesConstr_.get(indSample)->values_.size())
 		return -1e30;
 
 	return samplesConstr_.get(indSample)->values_[indConstr];
