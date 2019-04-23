@@ -13,31 +13,41 @@ using namespace AnalysisGenerator;
 
 int main()
 {
-	AnalysisParametersBlock block;
+	auto block=AnalysisParametersBlock::create();
 
-	block.addParameter("x", 0, 1);
-	block.addParameter("y", -1, 1);
-	block.addParameter("z", 0, 10);
+	block->addParameter("x", 0, 1);
+	block->addParameter("y", -1, 1);
+	block->addParameter("z", 0, 10);
 
-	block.addObjective("o1", AnalysisObjective::MIN_);
-	block.addObjective("o2", AnalysisObjective::MAX_);
+	block->addObjective("o1", AnalysisObjective::MIN_);
+	block->addObjective("o2", AnalysisObjective::MAX_);
+
+	block->addConstraint("c1", -1, 1);
+	block->addConstraint("c2", AnalysisConstraint::LB_, 1);
 	
-	function<bool(shared_ptr<AnalysisParametersBlock>&, int)> objf = [&](shared_ptr<AnalysisParametersBlock>& block, int index)->bool
+	function<bool(shared_ptr<AnalysisParametersBlock>&, int)> objf = [](shared_ptr<AnalysisParametersBlock>& tempBlock, int index)->bool
 	{
-		auto x=block->getValue("x", index);
-		auto y=block->getValue("y", index);
-		auto z=block->getValue("z", index);
+		auto x = tempBlock->getValue("x", index);
+		auto y = tempBlock->getValue("y", index);
+		auto z = tempBlock->getValue("z", index);
 
-		block->setObjective("o1", x + y, index);
-		block->setObjective("o2", z - y, index);
+		tempBlock->setObjective("o1", x + y, index);
+		tempBlock->setObjective("o2", z - y, index);
+
+		tempBlock->setConstraint("c1", x + y, index);
+		tempBlock->setConstraint("c2", z - y, index);
+
 		return true;
 	};
-	auto temp = make_shared< AnalysisParametersBlock>(block);
-	shared_ptr<Generator> tt(new LatinHypercube(temp));
+
+	shared_ptr<Generator> tt(new LatinHypercube(block));
+
+	tt->setOption("numSamples", "1000");
 	Model model(tt);
-	model.setBlock(temp);
+	model.setBlock(block);
 	model.setObjf(objf);
 	model.run();
-	model.dumpSamples(R"(C:\tmp\samples.txt)",0);
+	model.dumpSamples(R"(C:\tmp\samples_LH.txt)", 0);// , OPTIPP_DUMP_FEAS | OPTIPP_DUMP_PARETO);
+	block->evalCorrCoeff();
 	return 0;
 }

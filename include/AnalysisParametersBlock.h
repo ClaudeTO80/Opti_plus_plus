@@ -4,6 +4,7 @@
 #include "AnalysisObjectives.h"
 #include "AnalysisConstraints.h"
 #include "AnGenUtils.h"
+#include <memory>
 #include <iostream>
 #include <fstream>
 
@@ -15,6 +16,15 @@ namespace AnalysisGenerator
 	class AnalysisParametersBlock
 	{
 	public:
+		static std::shared_ptr<AnalysisParametersBlock> create()
+		{
+			auto temp = new AnalysisParametersBlock();
+			std::shared_ptr<AnalysisParametersBlock> ptr;
+			ptr.reset(temp);
+
+			return ptr;
+		}
+
 		std::shared_ptr<Sample> getSample(int i);
 		std::shared_ptr<Sample> getSampleObjectives(int i);
 		std::shared_ptr<Sample> getSampleConstraints(int i);
@@ -184,7 +194,9 @@ namespace AnalysisGenerator
 		}
 		
 		
-	public:
+	private:
+
+		AnalysisParametersBlock() {}
 		AnalysisParameters params_;
 		AnalysisObjectives objs_;
 		AnalysisConstraints constr_;

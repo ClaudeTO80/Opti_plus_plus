@@ -91,6 +91,16 @@ namespace AnalysisGenerator
 		const std::shared_ptr <GeneratorOption>& addOption(std::string name, float value);
 		bool hasOption(std::string name);
 		const std::shared_ptr <GeneratorOption>& getOption(std::string name);
+		bool setOption(std::string name, std::string value)
+		{
+			auto temp = opts_.find(name);
+			if (temp == opts_.end())
+				return false;
+
+			temp->second->value(value);
+			return true;
+		}
+
 	//private:
 		std::map<std::string, std::shared_ptr<GeneratorOption>> opts_;
 		std::vector<std::string> names_;
