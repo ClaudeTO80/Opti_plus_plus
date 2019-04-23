@@ -207,6 +207,11 @@ namespace AnalysisGenerator
 				return temp->second;
 		}
 
+		size_t dim()
+		{
+			return paramsVect_.size();
+		}
+
 		std::vector<std::shared_ptr<AnalysisParameter>> paramsVect_;
 		std::map<std::string, std::shared_ptr<AnalysisParameter>> params_;
 		std::map<std::string, int> pos_;

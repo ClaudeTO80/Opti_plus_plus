@@ -47,5 +47,6 @@ int main()
 	model.setObjf(objf);
 	model.run();
 	model.dumpSamples(R"(C:\tmp\samples.txt)", 0);// , OPTIPP_DUMP_FEAS | OPTIPP_DUMP_PARETO);
+	model.evalCorrCoeff();
 	return 0;
 }

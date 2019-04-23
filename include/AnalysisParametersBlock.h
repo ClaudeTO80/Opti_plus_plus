@@ -3,6 +3,7 @@
 #include "AnalysisSample.h"
 #include "AnalysisObjectives.h"
 #include "AnalysisConstraints.h"
+#include "AnGenUtils.h"
 #include <iostream>
 #include <fstream>
 
@@ -107,9 +108,82 @@ namespace AnalysisGenerator
 					paretoSols_.push_back(i);
 			}
 		}
-
 		
+		void evalCorrCoeff()
+		{
+			int numSamples = (int)samples_.dim();
+			int numParams = (int)params_.dim();
+			int numObjs = (int)objs_.dim();
+			int numConstr = (int)constr_.dim();
+			corrCoeff_.clear();
+			corrCoeff_.resize(numParams);
 
+			for (int j = 0; j < numParams; ++j)
+			{
+
+				std::vector<double>currParamCoeffs;
+				currParamCoeffs.resize(numObjs + numConstr);
+				std::vector<double>currParamValues;
+				currParamValues.resize(numSamples);
+
+				for (int i = 0; i < numSamples; ++i)
+				{
+					auto currSample = samples_.get(i);
+					currParamValues[i] = currSample->values_[j];
+				}
+
+				int pos = 0;
+				/*std::vector<double> currResValues;
+				currResValues.resize(numObjs+numConstr);
+				corrCoeff_[j] = currParamValues;*/
+				for (int k = 0; k < numObjs; ++k)
+				{
+					std::vector<double>currObjValues;
+					currObjValues.resize(numSamples);
+
+					for (int i = 0; i < numSamples; ++i)
+					{
+						auto currObjSamples = samplesObjs_.get(i);
+						currObjValues[i] = currObjSamples->values_[k];
+					}
+
+					currParamCoeffs[pos] = CurrUtils::StatisticTools::CorrCoeff(currParamValues, currObjValues);
+					++pos;
+				}
+
+				for (int k = 0; k < numConstr; ++k)
+				{
+					std::vector<double>currConstrValues;
+					currConstrValues.resize(numSamples);
+
+					for (int i = 0; i < numSamples; ++i)
+					{
+						auto currConstrSamples = samplesConstr_.get(i);
+						currConstrValues[i] = currConstrSamples->values_[k];
+					}
+
+					currParamCoeffs[pos] = CurrUtils::StatisticTools::CorrCoeff(currParamValues, currConstrValues);
+					++pos;
+				}
+
+				corrCoeff_[j] = currParamCoeffs;
+			}
+
+			int dim =(int) corrCoeff_[0].size();
+
+			for (int j = 0; j < dim; ++j)
+			{
+				double tot = 0;
+				for (int i = 0; i < numParams; ++i)
+					tot += abs(corrCoeff_[i][j]);
+
+				for (int i = 0; i < numParams; ++i)
+					corrCoeff_[i][j]/=tot;
+			}
+
+		}
+		
+		
 	public:
 		AnalysisParameters params_;
 		AnalysisObjectives objs_;
@@ -120,5 +194,6 @@ namespace AnalysisGenerator
 		std::vector<std::vector<bool>> satisfied_;
 		std::vector<bool> feasibile_;
 		std::vector<bool> paretoSols_;
+		std::vector<std::vector<double>> corrCoeff_;
 	};
 }

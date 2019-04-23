@@ -17,6 +17,10 @@ namespace AnalysisGenerator
 		void run();
 		void dumpSamples(const std::string& filename, int opts);
 		void setObjf(std::function<bool(std::shared_ptr<AnalysisParametersBlock>&, int)> objf);
+		void evalCorrCoeff()
+		{
+			block_->evalCorrCoeff();
+		}
 
 	private:
 		std::shared_ptr<AnalysisParametersBlock> block_;
