@@ -1,0 +1,32 @@
+/*!
+@page Optipp_Strategies Strategies
+@section Introduction
+Opti++ supplies a given set of analysis exploration techniques out of the box. In this pages there is an overall description.
+
+@section Optipp_DoE Design Of Experiment (DOE)
+Design Of Experiment (DOE) is a set of techiniques devoted to exploration of variables spaces. Such strategy can be used when an exploration of
+design space is required or when any optimization strategy could not be applied (i.e. when evaluation of objective function is too much time consuming).
+Opti++ has two DOE techniques: Full Factorial and Latin hypercube.
+
+@subsection Optipp_DoE_FullFactorial Full Factorial
+Full factorial is the simplest possible available DOE techinique. It just creates a grid on each variable. Than a matrix is creating crossing each node
+of the grid with any other. Such technique is appliable when it is possible performing a medium or large set of analyses.
+An example image is available in below image. In such example there are two variables, X1 and X2. X1 domain interval is 
+splitted into 14 nodes. X2 is domain interval is splitted into 6 nodes. Final matrix of full factorial DOE analysis is made by 16x6= 96 samples. 
+For each variable it is possible to define grid elements both via equispatial splitting of domain interval or with an explicit list of values.
+
+@htmlonly <style>div.image img[src="FullFactorial.png"]{width:500px;}</style> @endhtmlonly 
+@image html FullFactorial.png "Example of full factorial discretization" 
+
+@subsection Optipp_DoE_LatinHypercube Latin Hypercube
+Latin Hypercube is always based on discretization of each variables domain interval. But it is preliminary chosen the number of total samples (let's say <i>N</i>). 
+Later each variable's domain interval is split into <i>N</i> intervals (i.e. <i>N+1</i> nodes). Finally it is randomly chosen a set of sub intervals. 
+Choices are performed in oreder to avoid repetition of any variable's interval. Such technique is appliable when it is not possible performing a 
+medium or large set of analyses and a wide exploration is required.
+Taking as an example the image below, it was set <i>N=8</i>. For each 
+variable was created a set of 9 grid elements. Finally it was chose a set of 9 variables sets in order to respect constraint of not repetition. 
+
+@htmlonly <style>div.image img[src="LatinHypercube.png"]{width:500px;}</style> @endhtmlonly 
+@image html LatinHypercube.png "Example of latin hypercube discretization" 
+*/
+

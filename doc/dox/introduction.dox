@@ -1,0 +1,15 @@
+/*!
+@page Optipp_IntroPage Introduction
+
+@section Introduction
+Opti++ is an optimization framework totally developed in C++. Main objective is implementing main tools useful for optimization and analysis exploration. 
+Some Strategies are already available out-of-the-box, some other can be added by anybody via custom personalization and creation of user defined analysis
+methodologies. In this documentation there is the description of whole code and how implementing custom personalization.
+
+@section License
+Full project is open source and is released under MIT license. This means that any usage is allowed, also commercial and/or closed source ones. 
+License file is available in main page of Opti++ project. For a deeper description of the license better information are available at this 
+<a href='https://en.wikipedia.org/wiki/MIT_License' target='_blank'> wikipedia page</a>. 
+It would be appreciated if any usage in thesis, master thesis, PhD. thesis, scientific papers and commercial environments is shared with a mail at 
+<a href="mailto:myprogrammingexperience@gmail.com" target="_top">myprogrammingexperience@gmail.com</a>. 
+*/
