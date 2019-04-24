@@ -40,10 +40,10 @@ int main()
 		return true;
 	};
 
-	shared_ptr<Generator> tt(new LatinHypercube(block));
+	shared_ptr<Generator> LH_Generator(new LatinHypercube(block));
 
-	tt->setOption("numSamples", "1000");
-	Model model(tt);
+	LH_Generator->setOption("numSamples", "1000");
+	Model model(LH_Generator);
 	model.setBlock(block);
 	model.setObjf(objf);
 	model.run();

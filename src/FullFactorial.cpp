@@ -50,9 +50,14 @@ bool FullFactorial::generate()
 
 	for (auto& curr : params)
 	{
-		auto temp = genopts_.getOption(curr->name());
-		if (temp.get())
-			levels_.push_back(temp->value<int>());
+		if (genopts_.hasOption(curr->name()))
+		{
+			/*auto temp = genopts_.getOption(curr->name());*/
+			/*	genopts_.getOption(curr->name());
+				auto temp = genopts_.getOption(curr->name());
+				if (temp.get())*/
+			levels_.push_back(genopts_.getOption(curr->name())->value<int>());
+		}
 		else
 			levels_.push_back((int)curr->values().size());
 	}

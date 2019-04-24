@@ -16,7 +16,7 @@ int main()
 {
 	shared_ptr<AnalysisParametersBlock> block= AnalysisParametersBlock::create();
 
-	block->addParameter("x", 0, 1);
+	block->addParameter("x", vector<double>{0, .11, .33, .44, .77, .99, 1});
 	block->addParameter("y", -1, 1);
 	block->addParameter("z", 0, 10);
 
@@ -41,13 +41,13 @@ int main()
 		return true;
 	};
 
-	shared_ptr<Generator> tt(new FullFactorial(block));
+	shared_ptr<Generator> FF_Generator(new FullFactorial(block));
 
-	tt->setOption("x", "5");
-	tt->setOption("y", "5");
-	tt->setOption("z", "5");
+	FF_Generator->setOption("x", "5");
+	FF_Generator->setOption("y", "5");
+	FF_Generator->setOption("z", "5");
 
-	Model model(tt);
+	Model model(FF_Generator);
 	model.setBlock(block);
 	model.setObjf(objf);
 	model.run();

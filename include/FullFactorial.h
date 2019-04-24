@@ -17,7 +17,6 @@ namespace AnalysisGenerator
 	class FullFactorial : public DoeGenerator
 	{
 	public:
-		//FullFactorial(const std::vector<std::pair<double, double>>& bounds) :DoeGenerator(bounds) {}
 		FullFactorial(std::shared_ptr<AnalysisParametersBlock>& block): DoeGenerator(block) 
 		{
 			setOptions();

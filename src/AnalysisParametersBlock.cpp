@@ -206,8 +206,8 @@ bool AnalysisParametersBlock::dumpSamples(	const string& fileName,
 	auto constrs = constr_.getConstraints();
 	int numConstr = (int)constrs.size();
 
-	bool feasibileOnly	= opts & OPTIPP_DUMP_FEAS;
-	bool paretoOnly		= opts & OPTIPP_DUMP_PARETO;
+	bool feasibileOnly	= !opts && (opts & OPTIPP_DUMP_FEAS);
+	bool paretoOnly		= !opts && (opts & OPTIPP_DUMP_PARETO);
 
 	if (paretoOnly)
 		evalParetoFront();

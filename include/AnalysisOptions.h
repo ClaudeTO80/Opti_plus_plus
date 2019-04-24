@@ -73,6 +73,14 @@ namespace AnalysisGenerator
 
 		GeneratorOption(std::string name, const std::string& def);
 		GeneratorOption(std::string name);
+		GeneratorOption(const std::shared_ptr<GeneratorOption>& src)
+		{
+			if (src.get())
+			{
+				name_ = src->name_;
+				value_ = src->asString();
+			}
+		}
 		std::string value_;
 		std::string name_;
 
