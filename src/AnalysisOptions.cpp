@@ -49,7 +49,7 @@ const shared_ptr <GeneratorOption>& GeneratorOptions::addOption(string name, flo
 
 bool GeneratorOptions::hasOption(string name) 
 { 
-	return opts_.find(name) == opts_.end(); 
+	return opts_.find(name) != opts_.end(); 
 }
 
 const shared_ptr <GeneratorOption>& GeneratorOptions::getOption(string name) 
