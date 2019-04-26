@@ -4,7 +4,7 @@ if (POLICY CMP0048)
   cmake_policy(SET CMP0048 NEW)
 endif (POLICY CMP0048)
 
-project(AnalysisLib VERSION 0.1.0.0)
+project(Opti++ VERSION 0.1.0.0)
 
 include(CTest)
 
@@ -22,9 +22,9 @@ file(WRITE include/version.h
 
 #OPTION(BUILD_TYPE "Build tests." OFF)
 
-SET(BUILD_TYPE "Static" CACHE STRING "Static")
+#SET(BUILD_TYPE "Static" CACHE STRING "Static")
 
-SET_PROPERTY(CACHE BUILD_TYPE PROPERTY STRINGS "Static" "Shared" "Both") 
+#SET_PROPERTY(CACHE BUILD_TYPE PROPERTY STRINGS "Static" "Shared" "Both") 
 
 if(MSVC)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
@@ -36,47 +36,47 @@ endif(MSVC)
 
 file(GLOB AnalysisLib_src "src/*.cpp")
 #message( ${AnalysisLib_src} )
-IF(${BUILD_TYPE} MATCHES "Static" OR ${BUILD_TYPE} MATCHES "Both")
-	add_library(AnalysisLib STATIC ${AnalysisLib_src})
+#IF(${BUILD_TYPE} MATCHES "Static" OR ${BUILD_TYPE} MATCHES "Both")
+	add_library(OptiLib STATIC ${AnalysisLib_src})
 	
-	set_target_properties( AnalysisLib 
+	set_target_properties( OptiLib 
     PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
-	OUTPUT_NAME "AnalysisLib"
+	OUTPUT_NAME "OptiLib"
 #	COMPILE_FLAGS "-m32" 
 #	LINK_FLAGS "-m32"
 )
 
-ENDIF()
+#ENDIF()
 
-IF(${BUILD_TYPE} MATCHES "Shared" OR ${BUILD_TYPE} MATCHES "Both")
-	add_library(AnalysisLibShared SHARED ${AnalysisLib_src})
+#IF(${BUILD_TYPE} MATCHES "Shared" OR ${BUILD_TYPE} MATCHES "Both")
+#	add_library(AnalysisLibShared SHARED ${AnalysisLib_src})
 
 
-set_target_properties( AnalysisLibShared
-    PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-	OUTPUT_NAME "AnalysisLib"
-#	COMPILE_FLAGS "-m32" 
-#	LINK_FLAGS "-m32"
-)
-ENDIF()
+#set_target_properties( AnalysisLibShared
+#    PROPERTIES
+#    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+#    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+#    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+#	OUTPUT_NAME "AnalysisLib"
+##	COMPILE_FLAGS "-m32" 
+##	LINK_FLAGS "-m32"
+#)
+##ENDIF()
 
 include_directories("include")
 if(BUILD_TESTING)
 	file(GLOB testFullFact_src "test/test_FullFactorial.cpp")
 	add_executable(testFullFact  ${testFullFact_src})
 	include_directories("../../include")
-	target_link_libraries(testFullFact AnalysisLib) 
+	target_link_libraries(testFullFact OptiLib) 
 	
 	file(GLOB testLatinHyper_src "test/test_LatinHypercube.cpp")
 	add_executable(testLatinHyper  ${testLatinHyper_src})
 	include_directories("../../include")
-	target_link_libraries(testLatinHyper AnalysisLib) 
+	target_link_libraries(testLatinHyper OptiLib) 
 	
 endif()
 
