@@ -1,2 +1,3 @@
 theme: jekyll-theme-midnight
-include: docs/html/
+include: 
+  - docs/html/_*
