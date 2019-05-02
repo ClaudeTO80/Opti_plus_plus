@@ -22,11 +22,19 @@ namespace AnalysisGenerator
 			block_->evalCorrCoeff();
 		}
 
+		void setRobustDesign(bool value, int numSamples)
+		{
+			robustDesign_ = value;
+			numSamples_ = numSamples;
+		}
+
 	private:
 		std::shared_ptr<AnalysisParametersBlock> block_;
 		std::shared_ptr<Generator> generator_;
 		std::function<bool(std::shared_ptr<AnalysisParametersBlock>&, int)> objf_;
-		std::function<bool(std::shared_ptr<AnalysisParametersBlock>&, int)> preFeas_{nullptr};
+		/*std::function<bool(std::shared_ptr<AnalysisParametersBlock>&, int)> preFeas_{ nullptr };*/
 		std::function<bool(std::shared_ptr<AnalysisParametersBlock>&, int)> postFeas_{ nullptr };
+		bool robustDesign_{ false };
+		int numSamples_{ 0 };
 	};
 }

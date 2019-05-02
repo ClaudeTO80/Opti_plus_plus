@@ -157,7 +157,7 @@ namespace AnalysisGenerator
 						currObjValues[i] = currObjSamples->values_[k];
 					}
 
-					currParamCoeffs[pos] = CurrUtils::StatisticTools::CorrCoeff(currParamValues, currObjValues);
+					currParamCoeffs[pos] = Utils::StatisticTools::CorrCoeff(currParamValues, currObjValues);
 					++pos;
 				}
 
@@ -172,7 +172,7 @@ namespace AnalysisGenerator
 						currConstrValues[i] = currConstrSamples->values_[k];
 					}
 
-					currParamCoeffs[pos] = CurrUtils::StatisticTools::CorrCoeff(currParamValues, currConstrValues);
+					currParamCoeffs[pos] = Utils::StatisticTools::CorrCoeff(currParamValues, currConstrValues);
 					++pos;
 				}
 
@@ -193,7 +193,15 @@ namespace AnalysisGenerator
 
 		}
 		
-		
+		std::shared_ptr<AnalysisParametersBlock> clone()
+		{
+			auto output = create();
+			output->params_ = params_.clone();
+			output->objs_ = objs_.clone();
+			output->constr_ = constr_.clone();
+			return output;
+		}
+
 	private:
 
 		AnalysisParametersBlock() {}

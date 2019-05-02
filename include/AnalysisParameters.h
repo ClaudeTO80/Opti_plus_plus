@@ -25,6 +25,7 @@ namespace AnalysisGenerator
 	{
 	public:
 		
+		enum varianceType {ABSOLUTE_,PERCENTAGE_};
 
 		//int numDiscr() { return numDiscr_; };
 		//void numDiscr(int value) { numDiscr_ = value; };
@@ -87,6 +88,15 @@ namespace AnalysisGenerator
 		*/
 		int size() { return dim_; }
 
+		void variance(double value, varianceType type) 
+		{
+			variance_ = value;
+			vartype_ = type;
+		}
+
+		double variance() { return variance_; }
+		varianceType varType() { return vartype_; }
+		
 	private:
 
 		friend class AnalysisParameterCreator;
@@ -110,6 +120,8 @@ namespace AnalysisGenerator
 		double ub_{ 0 };      			/**< Upper bound of parameter @since 0.1.0*/
 		int dim_{ 0 };                  /**< Number of element belonging to vectorial parameter @since 0.1.0*/
 		//int numDiscr_{ 2 };             /**< Detailed description after the member */
+		double variance_{ 0 };
+		varianceType vartype_{ ABSOLUTE_ };
 	};
 
 	class AnalysisParameterCreator
@@ -147,6 +159,25 @@ namespace AnalysisGenerator
 
 			return std::shared_ptr<AnalysisParameter>(new AnalysisParameter(name, values, dim));
 		}
+
+		static std::shared_ptr<AnalysisParameter> createParameter(const std::shared_ptr<AnalysisParameter>& src)
+		{
+			return createParameter(src.get());
+		}
+
+		static std::shared_ptr<AnalysisParameter> createParameter(const AnalysisParameter* src)
+		{
+			AnalysisParameter* param = new AnalysisParameter();
+			param->name_ = src->name_;
+			param->lb_ = src->lb_;
+			param->ub_ = src->ub_;
+			param->dim_ = src->dim_;
+			param->values_.reserve(src->values_.size());
+			param->values_.assign(src->values_.begin(), src->values_.end());
+			param->variance_ = src->variance_;
+			param->vartype_ = src->vartype_;
+			return std::shared_ptr<AnalysisParameter>(param);
+		}
 	};
 
 	class AnalysisParameters
@@ -154,6 +185,17 @@ namespace AnalysisGenerator
 	public:
 				
 		AnalysisParameters() {}
+		AnalysisParameters clone()
+		{
+			AnalysisParameters output;
+			std::for_each(paramsVect_.begin(), paramsVect_.end(), [&](const std::shared_ptr<AnalysisParameter>& curr)
+			{
+				output.addParameter(AnalysisParameterCreator::createParameter(curr));
+			});
+
+			return output;
+		}
+
 	private:
 		
 		friend class AnalysisParametersBlock;
@@ -206,7 +248,6 @@ namespace AnalysisGenerator
 			else
 				return temp->second;
 		}
-
 		size_t dim()
 		{
 			return paramsVect_.size();
@@ -215,6 +256,7 @@ namespace AnalysisGenerator
 		std::vector<std::shared_ptr<AnalysisParameter>> paramsVect_;
 		std::map<std::string, std::shared_ptr<AnalysisParameter>> params_;
 		std::map<std::string, int> pos_;
+		
 
 	};
 }

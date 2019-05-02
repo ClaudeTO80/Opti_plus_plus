@@ -73,6 +73,25 @@ namespace AnalysisGenerator
 		static std::shared_ptr<AnalysisConstraint> createConstraint(std::string name, double lb, double ub);
 		static std::shared_ptr<AnalysisConstraint> createConstraint(std::string name, AnalysisConstraint::ConstrType type, double value);
 		static std::shared_ptr<AnalysisConstraint> createConstraint(std::string name, std::vector<double> values);
+		static std::shared_ptr<AnalysisConstraint> createConstraint(const std::shared_ptr<AnalysisConstraint>& constr)
+		{
+			AnalysisConstraint* output;
+
+			if (constr->type()==AnalysisConstraint::ConstrType::AV_)
+				output = new AnalysisConstraint(constr->name(), constr->values());
+
+			if (constr->type() == AnalysisConstraint::ConstrType::DB_)
+				output = new AnalysisConstraint(constr->name(), constr->lb(), constr->ub());
+			
+			if (constr->type() == AnalysisConstraint::ConstrType::LB_)
+				output = new AnalysisConstraint(constr->name(), constr->type(), constr->lb());
+			
+			if (constr->type() == AnalysisConstraint::ConstrType::UB_)
+				output = new AnalysisConstraint(constr->name(), constr->type(), constr->ub());
+
+			return std::shared_ptr< AnalysisConstraint>(output);
+
+		}
 	
 	};
 
@@ -89,6 +108,18 @@ namespace AnalysisGenerator
 		int getIndex(std::string name);
 
 		const std::vector<std::shared_ptr<AnalysisConstraint>>& getConstraints();
+
+		AnalysisConstraints clone()
+		{
+			AnalysisConstraints output;
+			std::for_each(constrVect_.begin(), constrVect_.end(), [&](const std::shared_ptr<AnalysisConstraint>& curr)
+			{
+				output.addConstraint(AnalysisConstraintCreator::createConstraint(curr));
+			});
+
+			return output;
+		}
+
 	private:
 		
 		friend class AnalysisParametersBlock;

@@ -4,7 +4,9 @@
 #include <algorithm>
 #include <type_traits>
 #include <math.h>  
-namespace AnalysisGenerator::CurrUtils
+#include <numeric> 
+
+namespace AnalysisGenerator::Utils
 {
 	template<
 		typename T,
@@ -78,5 +80,25 @@ namespace AnalysisGenerator::CurrUtils
 
 		}
 
+		static double mean(std::vector<double> x)
+		{
+			return std::accumulate(x.begin(), x.end(), 0.0) / x.size();
+		}
+
+		static double variance(std::vector<double> x)
+		{
+			double result = 0;
+			double meanValue = mean(x);
+
+			for (double number : x)
+				result += pow(number - meanValue,2);
+
+			return result / (x.size() - 1);
+		}
+
+		static double stdVariance(std::vector<double> x)
+		{
+			return sqrt(variance(x));
+		}
 	};
 }

@@ -73,6 +73,11 @@ if(BUILD_TESTING)
 	include_directories("../../include")
 	target_link_libraries(testFullFact OptiLib) 
 	
+	file(GLOB testFullFact_RD_src "test/test_FullFactorial_RD.cpp")
+	add_executable(testFullFact_RD  ${testFullFact_RD_src})
+	include_directories("../../include")
+	target_link_libraries(testFullFact_RD OptiLib) 
+	
 	file(GLOB testLatinHyper_src "test/test_LatinHypercube.cpp")
 	add_executable(testLatinHyper  ${testLatinHyper_src})
 	include_directories("../../include")

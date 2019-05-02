@@ -11,7 +11,7 @@ namespace AnalysisGenerator
 	public:
 		friend class AnalysisParametersBlock;
 		friend class SamplesSet;
-
+		const std::vector<double>& getValues() { return values_; }
 	private:
 		
 		Sample(const std::vector<double>& values);

@@ -26,7 +26,7 @@ namespace AnalysisGenerator
 		@return name: name of objective
 		@since 0.1.0
 		*/
-		std::string name() { return name_; }
+		const std::string& name() { return name_; }
 		
 		ObjDir dir() { return dir_; }
 		
@@ -43,6 +43,10 @@ namespace AnalysisGenerator
 	{
 	public:
 		static std::shared_ptr<AnalysisObjective> createObjective(const std::string& name, AnalysisObjective::ObjDir dir);
+		static std::shared_ptr<AnalysisObjective> createObjective(const std::shared_ptr<AnalysisObjective>& obj)
+		{
+			return createObjective(obj->name(), obj->dir());
+		}
 	};
 
 	class AnalysisObjectives
@@ -84,6 +88,18 @@ namespace AnalysisGenerator
 		}
 
 		const std::vector<std::shared_ptr<AnalysisObjective>>& getObjectives() { return objsVect_; }
+		
+		AnalysisObjectives clone()
+		{
+			AnalysisObjectives output;
+			std::for_each(objsVect_.begin(), objsVect_.end(), [&](const std::shared_ptr<AnalysisObjective>& curr)
+			{
+				output.addObjective(AnalysisObjectiveCreator::createObjective(curr));
+			});
+
+			return output;
+		}
+
 	private:
 		
 		friend class AnalysisParametersBlock;
