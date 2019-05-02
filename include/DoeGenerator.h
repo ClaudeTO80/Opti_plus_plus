@@ -33,7 +33,7 @@ namespace AnalysisGenerator
 	protected:
 		bool randomSorting_{ false };
 		std::vector<std::pair<double, double>> bounds_;
-		std::shared_ptr<AnalysisParametersBlock> block_;
+		/*std::shared_ptr<AnalysisParametersBlock> block_;*/
 		
 	};
 

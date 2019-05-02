@@ -94,7 +94,8 @@ namespace AnalysisGenerator
 			AnalysisObjectives output;
 			std::for_each(objsVect_.begin(), objsVect_.end(), [&](const std::shared_ptr<AnalysisObjective>& curr)
 			{
-				output.addObjective(AnalysisObjectiveCreator::createObjective(curr));
+				auto temp=AnalysisObjectiveCreator::createObjective(curr);
+				output.addObjective(temp);
 			});
 
 			return output;

@@ -114,7 +114,8 @@ namespace AnalysisGenerator
 			AnalysisConstraints output;
 			std::for_each(constrVect_.begin(), constrVect_.end(), [&](const std::shared_ptr<AnalysisConstraint>& curr)
 			{
-				output.addConstraint(AnalysisConstraintCreator::createConstraint(curr));
+				auto temp = AnalysisConstraintCreator::createConstraint(curr);
+				output.addConstraint(temp);
 			});
 
 			return output;

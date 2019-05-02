@@ -48,7 +48,7 @@ int main()
 	FF_Generator->setOption("z", "5");
 
 	Model model(FF_Generator);
-	model.setBlock(block);
+	//model.setBlock(block);
 	model.setObjf(objf);
 	model.run();
 	model.dumpSamples(R"(C:\tmp\samples_FF.txt)", 0);// , OPTIPP_DUMP_FEAS | OPTIPP_DUMP_PARETO);

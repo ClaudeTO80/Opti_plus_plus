@@ -7,10 +7,15 @@ using namespace AnalysisGenerator;
 
 Model::Model() {};
 
-Model::Model(std::shared_ptr<Generator>& generator) : generator_(generator) {}
+Model::Model(std::shared_ptr<Generator>& generator) : generator_(generator) 
+{
+	setBlock(generator_->getBlock());
+	return;
+}
 void Model::setGenerator(std::shared_ptr<Generator>& generator)
 {
 	generator_ = generator;
+	setBlock(generator_->getBlock());
 	return;
 }
 
@@ -19,7 +24,6 @@ void Model::setBlock(std::shared_ptr<AnalysisParametersBlock>& block)
 	block_ = block;
 	return;
 }
-
 
 void Model::run()
 {
@@ -71,7 +75,7 @@ void Model::run()
 
 			tempBlock->addSamples(rdgMatrix);
 			auto allBasicObjs = block_->getSampleObjectives(i);
-			for (int k = 0; k < objs.size()/3; ++k)
+			for (int k = 0; k < (int)objs.size()/3; ++k)
 				objs[k][0] = allBasicObjs->getValues()[k];
 
 			for (int j = 1; j <= numSamples_; ++j)
@@ -79,16 +83,16 @@ void Model::run()
 				auto ret = objf_(tempBlock, j);
 				auto allObjs = tempBlock->getSampleObjectives(j);
 
-				for (int k=0;k<objs.size()/3;++k)
+				for (int k=0;k< (int)objs.size()/3;++k)
 					objs[k][j]=allObjs->getValues()[k];
 			}
 
 			int pos = (int)objs.size() / 3;
-			for (int k = 0; k < objs.size()/3; ++k)
+			for (int k = 0; k < (int)objs.size()/3; ++k)
 			{
 				auto currName = tempBlock->getObjectives()[k]->name();
-				auto retVal=block_->setObjective(string("mean_").append(currName), Utils::StatisticTools::mean(objs[k]), i);
-				retVal =block_->setObjective(string("stdvar_").append(currName), Utils::StatisticTools::stdVariance(objs[k]), i);
+				block_->setObjective(string("mean_").append(currName), Utils::StatisticTools::mean(objs[k]), i);
+				block_->setObjective(string("stdvar_").append(currName), Utils::StatisticTools::stdVariance(objs[k]), i);
 			}
 
 		}

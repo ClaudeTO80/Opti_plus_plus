@@ -27,9 +27,10 @@ namespace AnalysisGenerator
 		const std::vector<std::vector<double>>& getMatrix() { return matrix_; }
 		virtual bool generate() = 0;
 		virtual void setOptions() = 0;
-
+		std::shared_ptr<AnalysisParametersBlock> getBlock() { return block_; }
 	protected:
 		std::vector<std::vector<double>> matrix_;
 		GeneratorOptions genopts_;
+		std::shared_ptr<AnalysisParametersBlock> block_;
 	};
 }

@@ -19,11 +19,11 @@ namespace AnalysisGenerator
 		template<
 			typename T, //real type
 			typename = typename std::enable_if_t<std::is_arithmetic_v<T> || std::is_literal_type_v<T>> >
-		void value(T value) { value_ = CurrUtils::Stringify(value); }
+		void value(T value) { value_ = Utils::Stringify(value); }
 		template<
 			typename T, //real type
 			typename = typename std::enable_if_t<std::is_arithmetic_v<T> || std::is_literal_type_v<T>> >
-		void value(std::vector<T> value) { value_ = CurrUtils::Stringify(value); }
+		void value(std::vector<T> value) { value_ = Utils::Stringify(value); }
 		std::string asString();
 		
 

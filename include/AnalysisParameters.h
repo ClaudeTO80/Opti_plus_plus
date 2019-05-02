@@ -190,7 +190,8 @@ namespace AnalysisGenerator
 			AnalysisParameters output;
 			std::for_each(paramsVect_.begin(), paramsVect_.end(), [&](const std::shared_ptr<AnalysisParameter>& curr)
 			{
-				output.addParameter(AnalysisParameterCreator::createParameter(curr));
+				auto temp = AnalysisParameterCreator::createParameter(curr);
+				output.addParameter(temp);
 			});
 
 			return output;
