@@ -6,6 +6,90 @@ Opti++ is an optimization framework totally developed in C++. Main objective is 
 Some Strategies are already available out-of-the-box, some other can be added by anybody via custom personalization and creation of user defined analysis
 methodologies. In this documentation there is the description of whole code and how implementing custom personalization.
 
+@section Optipp_FiveMinutes Five Minutes Tutorial
+
+In this section it is shown a fast introduction to C++ code required.
+
+@subsection Optipp_download Source and library download
+Full Opti++ code is available on <a href="https://github.com" target="_blank"> github </a> at this <a href="https://github.com/ClaudeTO80/Opti_plus_plus" target="_blank"> link</a>.
+In web repository it is available Opti++ static library compiled for both VS2017 and MINGW64, Release and Debug configurations, 32 and 64 bit Platforms.
+
+@subsection Optipp_cmake Project configuration via CMake
+Opti++ source code is shipped with CMake file which allows easy and \e ad \e hoc project configuration and creation. Library can be compiled on any operative system which supports CMake 3.10.0 or higher and a C++17 compiler. 
+Currently project configuration & creation, compilation and tests have been performed ono Windows10 machines with VS2017 and MINGW64 compilers. This just means that any other operative system and compiler have not been 
+tested yet, but theoretically compilation can be successful if CMake and compiler's pre-requisites are satsfied.
+
+@subsection Optipp_minimalCode Minimal code
+
+@subsubsection Optipp_code1 Parameters, objectives and constraints definition
+First of all it is necessary creating an @ref AnalysisParametersBlock containig all parameters, objectives and constraints. Here there is a problem with 
+three parameters (x,y,z), two objectives (o1, o2) and two constraints (c1,c2). In this example:
+	- \f$x = \{0, 0.11, 0.33, 0.44, 0.77, 0.99, 1\}\f$
+	- \f$-1 \leq y \leq 1\f$
+	- \f$0 \leq z \leq 10\f$
+	- Objective \e o1 is minimized
+	- Objective \e o2 is maximized
+	- Constraint \e c1 is double bouded: \f$ -1 \leq c1 \leq 1 \f$
+	- Constraint \e c2 is lower bounded: \f$ -1 \leq c2 \f$
+	
+@code{.cpp}
+shared_ptr<AnalysisParametersBlock> block= AnalysisParametersBlock::create();
+
+block->addParameter("x", vector<double>{0, .11, .33, .44, .77, .99, 1});
+block->addParameter("y", -1, 1);
+block->addParameter("z", 0, 10);
+
+block->addObjective("o1", AnalysisObjective::MIN_);
+block->addObjective("o2", AnalysisObjective::MAX_);
+
+block->addConstraint("c1", -1, 1);
+block->addConstraint("c2", AnalysisConstraint::LB_,1);
+@endcode
+
+@subsubsection Optipp_code2 Objective function definition
+Then it is necessary defining a function or a lambda function devoted to evaluation of objectives and constraints. Such function must take two parameters: 
+reference to @ref AnalysisParametersBlock and index of sample to be evaluated. Such function returns a bool. Return value defines if evaluation ended
+succesfully or not.
+@code{.cpp}
+function<bool(shared_ptr<AnalysisParametersBlock>&, int)> objf = [](shared_ptr<AnalysisParametersBlock>& tempBlock, int index)->bool
+	{
+		auto x= tempBlock->getValue("x", index);
+		auto y= tempBlock->getValue("y", index);
+		auto z= tempBlock->getValue("z", index);
+
+		tempBlock->setObjective("o1", x + y, index);
+		tempBlock->setObjective("o2", z - y, index);
+
+		tempBlock->setConstraint("c1", x + y, index);
+		tempBlock->setConstraint("c2", z - y, index);
+
+		return true;
+	};
+@endcode
+
+@subsubsection Optipp_code3 DOE samples generator
+Next step is definition of generator of samples. In this example @ref FullFactorial class is used. Each generator is created with @ref AnalysisParametersBlock
+which was defined before and will be associated to current generator. For each @ref Generator there is a set of options. With reference to @ref FullFactorial
+there is an option for each @ref AnalysisParameters with parameters' names themselves. Each option defines how many discretizations there are for each parameter.
+@code{.cpp}
+shared_ptr<Generator> FF_Generator(new FullFactorial(block));
+
+FF_Generator->setOption("x", "5");
+FF_Generator->setOption("y", "4");
+FF_Generator->setOption("z", "6");
+@endcode
+
+@subsubsection Optipp_code4 Model configurator and execution
+Finally it is time to define the model. @ref Model is created with generator, which will transmit @ref AnalysisParametersBlock to model. 
+Than objective function evaluator is defined with @ref Model::setObjf. Finally analysis can be performed with method @ref Model::run(). Last step
+is dumping all samples evaluated on text file.
+@code{.cpp}
+Model model(FF_Generator);
+model.setObjf(objf);
+model.run();
+model.dumpSamples(R"(C:\tmp\samples_FF.txt)", 0);
+@endcode
+
 @section License
 Full project is open source and is released under MIT license. This means that any usage is allowed, also commercial and/or closed source ones. 
 License file is available in main page of Opti++ project. For a deeper description of the license better information are available at this 
