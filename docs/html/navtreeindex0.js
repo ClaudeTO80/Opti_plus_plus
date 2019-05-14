@@ -55,6 +55,13 @@ var NAVTREEINDEX0 =
 "_optipp__intro_page.html#Introduction":[0,0,0],
 "_optipp__intro_page.html#License":[0,0,2],
 "_optipp__intro_page.html#Optipp_FiveMinutes":[0,0,1],
+"_optipp__intro_page.html#Optipp_cmake":[0,0,1,1],
+"_optipp__intro_page.html#Optipp_code1":[0,0,1,2,0],
+"_optipp__intro_page.html#Optipp_code2":[0,0,1,2,1],
+"_optipp__intro_page.html#Optipp_code3":[0,0,1,2,2],
+"_optipp__intro_page.html#Optipp_code4":[0,0,1,2,3],
+"_optipp__intro_page.html#Optipp_download":[0,0,1,0],
+"_optipp__intro_page.html#Optipp_minimalCode":[0,0,1,2],
 "_optipp__main_documentation.html":[0],
 "_optipp__strategies.html":[0,1],
 "_optipp__strategies.html#Optipp_DoE":[0,1,0],
@@ -242,12 +249,5 @@ var NAVTREEINDEX0 =
 "class_analysis_generator_1_1_utils_1_1_statistic_tools.html":[2,0,0,0,0],
 "class_optipp___mission_option_exception.html":[2,0,1],
 "class_optipp___mission_option_exception.html#a689dedf3c3de21395822e53de9b64d67":[2,0,1,1],
-"class_optipp___mission_option_exception.html#af6cc0179eb881039d5fdf2007a92f829":[2,0,1,0],
-"classes.html":[2,1],
-"dir_36f15a76b34aab76fd15ad9ec0b06ea0.html":[3,0,0],
-"dir_68267d1309a1af8e8297ef4c3efbcdba.html":[3,0,2],
-"dir_d44c64559bbebec7f509842c48db8b23.html":[3,0,1],
-"files.html":[3,0],
-"functions.html":[2,3,0],
-"functions_enum.html":[2,3,3]
+"class_optipp___mission_option_exception.html#af6cc0179eb881039d5fdf2007a92f829":[2,0,1,0]
 };
