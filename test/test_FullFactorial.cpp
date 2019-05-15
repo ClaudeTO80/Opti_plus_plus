@@ -1,13 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <vector>
-#include <algorithm>
-#include <iostream>
-#include <numeric>
-#include "Model.h"
-#include "AnalysisGenerator.h"
-#include "AnalysisParameters.h"
-#include "AnalysisConstraints.h"
+#include "optipp.h"
 
 using namespace std;
 using namespace AnalysisGenerator;

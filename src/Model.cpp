@@ -9,13 +9,16 @@ Model::Model() {};
 
 Model::Model(std::shared_ptr<Generator>& generator) : generator_(generator) 
 {
-	setBlock(generator_->getBlock());
+	auto temp = generator_->getBlock();
+	setBlock(temp);
 	return;
 }
+
 void Model::setGenerator(std::shared_ptr<Generator>& generator)
 {
 	generator_ = generator;
-	setBlock(generator_->getBlock());
+	auto temp = generator_->getBlock();
+	setBlock(temp);
 	return;
 }
 
@@ -81,14 +84,18 @@ void Model::run()
 			for (int j = 1; j <= numSamples_; ++j)
 			{
 				auto ret = objf_(tempBlock, j);
-				auto allObjs = tempBlock->getSampleObjectives(j);
 
-				for (int k=0;k< (int)objs.size()/3;++k)
-					objs[k][j]=allObjs->getValues()[k];
+				if (ret)
+				{
+					auto allObjs = tempBlock->getSampleObjectives(j);
+
+					for (int k = 0; k < (int)objs.size() / 3; ++k)
+						objs[k][j] = allObjs->getValues()[k];
+				}
 			}
 
 			int pos = (int)objs.size() / 3;
-			for (int k = 0; k < (int)objs.size()/3; ++k)
+			for (int k = 0; k < pos; ++k)
 			{
 				auto currName = tempBlock->getObjectives()[k]->name();
 				block_->setObjective(string("mean_").append(currName), Utils::StatisticTools::mean(objs[k]), i);

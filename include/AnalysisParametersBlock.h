@@ -1,4 +1,5 @@
 #pragma once
+#include "STLHeaders.h"
 #include "AnalysisParameters.h"
 #include "AnalysisSample.h"
 #include "AnalysisObjectives.h"
