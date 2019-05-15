@@ -4,9 +4,6 @@
 #include "AnalysisObjectives.h"
 #include "AnalysisConstraints.h"
 #include "AnGenUtils.h"
-#include <memory>
-#include <iostream>
-#include <fstream>
 
 namespace AnalysisGenerator
 {

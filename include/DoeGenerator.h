@@ -1,7 +1,5 @@
 #pragma once
-#include <vector>
-#include <ostream>
-
+#include "STLHeaders.h"
 #include "GenericGenerator.h"
 #include "AnalysisParametersBlock.h"
 

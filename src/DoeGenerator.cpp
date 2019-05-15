@@ -1,6 +1,5 @@
 #include "DoeGenerator.h"
-#include <string>
-#include <fstream>
+#include "STLHeaders.h"
 
 using namespace std;
 using namespace AnalysisGenerator;

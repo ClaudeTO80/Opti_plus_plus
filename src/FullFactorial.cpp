@@ -1,7 +1,6 @@
+#include "STLHeaders.h"
 #include "FullFactorial.h"
-#include <algorithm>
-#include <numeric>
-#include <fstream>
+
 
 using namespace std;
 using namespace AnalysisGenerator;

@@ -1,8 +1,6 @@
+#include "STLHeaders.h"
 #include "LatinHypercube.h"
-#include <algorithm>
-#include <numeric>
-#include <fstream>
-#include <string>
+
 
 using namespace std;
 using namespace AnalysisGenerator;

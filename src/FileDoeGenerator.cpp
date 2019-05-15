@@ -1,7 +1,4 @@
-#include <istream>
-#include <fstream>
-#include <sstream>
-#include <string>
+#include "STLHeaders.h"
 #include "FileDoeGenerator.h"
 
 //using namespace std;

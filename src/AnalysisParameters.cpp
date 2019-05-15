@@ -37,7 +37,7 @@ std::shared_ptr<AnalysisParameter> AnalysisParameters::addParameter(shared_ptr<A
 	{
 		paramsVect_.push_back(param);
 		params_.insert(make_pair(param->name(), param));
-		pos_.insert(make_pair(param->name(), paramsVect_.size() - 1));
+		pos_.insert(make_pair(param->name(), (int)paramsVect_.size() - 1));
 	}
 		
 	return param;

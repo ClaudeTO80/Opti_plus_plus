@@ -1,7 +1,5 @@
 #pragma once
-#include <vector>
-#include <memory>
-#include <algorithm>
+#include "STLHeaders.h"
 #include "DoeGenerator.h"
 #include "AnalysisOptions.h"
 

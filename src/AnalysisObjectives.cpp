@@ -20,7 +20,7 @@ std::shared_ptr<AnalysisObjective> AnalysisObjectives::addObjective(shared_ptr<A
 	{
 		objsVect_.push_back(obj);
 		objs_.insert(make_pair(obj->name(), obj));
-		pos_.insert(make_pair(obj->name(), objsVect_.size() - 1));
+		pos_.insert(make_pair(obj->name(), (int)objsVect_.size() - 1));
 	}
 		
 	return obj;

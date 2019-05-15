@@ -1,3 +1,4 @@
+#include "STLHeaders.h"
 #include "AnalysisParametersBlock.h"
 
 using namespace std;
@@ -230,7 +231,7 @@ bool AnalysisParametersBlock::dumpSamples(	const string& fileName,
 
 	for (int i = 0; i < numSamples; ++i)
 	{
-		if (paretoOnly && find(paretoSols_.begin(), paretoSols_.end(), i) == paretoSols_.end())
+		if (paretoOnly && paretoSols_[i]) // find(paretoSols_.begin(), paretoSols_.end(), i) == paretoSols_.end())
 			continue;
 
 		if (!feasibileOnly || feasibile_[i])

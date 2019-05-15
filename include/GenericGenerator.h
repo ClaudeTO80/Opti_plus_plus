@@ -1,8 +1,7 @@
 #pragma once
+#include "STLHeaders.h"
+#include "AnalysisParametersBlock.h"
 #include "AnalysisOptions.h"
-#include <string>
-#include <vector>
-#include <memory>
 
 namespace AnalysisGenerator
 {

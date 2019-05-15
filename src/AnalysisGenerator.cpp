@@ -1,7 +1,5 @@
 #include "AnalysisGenerator.h"
-#include <iostream>
-#include <fstream>
-#include <string>
+#include "STLHeaders.h"
 
 using namespace std;
 using namespace AnalysisGenerator;

@@ -1,8 +1,6 @@
+#include "STLHeaders.h"
 #include "AnalysisConstraints.h"
-#include <string>
-#include <vector>
-#include <map>
-#include <algorithm>
+
 
 using namespace std;
 using namespace AnalysisGenerator;
@@ -159,7 +157,7 @@ void AnalysisConstraints::addConstraint(shared_ptr<AnalysisConstraint>& constr)
 {
 	constrVect_.push_back(constr);
 	constr_.insert(make_pair(constr->name(), constr));
-	pos_.insert(make_pair(constr->name(), constrVect_.size() - 1));
+	pos_.insert(make_pair(constr->name(), (int)constrVect_.size() - 1));
 	return;
 }
 												
