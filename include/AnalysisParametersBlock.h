@@ -269,7 +269,6 @@ namespace AnalysisGenerator
 		@details
 		@since 0.1.0.0
 		*/
-
 		void setConstraintSatisfied(int indSample, int indConstr, bool value);
 
 		/**
