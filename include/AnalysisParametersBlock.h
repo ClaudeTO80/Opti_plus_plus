@@ -54,57 +54,87 @@ namespace AnalysisGenerator
 		std::shared_ptr<Sample> getSample(int i);
 
 		/**
-		@brief
-		@details
+		@brief Returns all objectives values of an analysis sample
+		@details Returns values of all objectives of an analysis sample whose index is defined by parameter @ref i.
+		@param i: index of required sample's objectives
+		@return obj_ptr: shared pointer to required objectives values
 		@since 0.1.0.0
 		*/
 		std::shared_ptr<Sample> getSampleObjectives(int i);
 
 		/**
-		@brief
-		@details
+		@brief Returns all constriants values of an analysis sample
+		@details Returns values of all constriants of an analysis sample whose index is defined by parameter @ref i.
+		@param i: index of required sample's constraints
+		@return constr_ptr: shared pointer to required constriants values
 		@since 0.1.0.0
 		*/
 		std::shared_ptr<Sample> getSampleConstraints(int i);
 
 		/**
-		@brief
-		@details
+		@brief Get a constraint value of a sample
+		@details Returns a constraint values, identified by parameter @ref indConstr, if a given sample, identified 
+		by parameter @ref indSample
+		@param indSample: index of required sample's constraint value
+		@param indConstr: index of required constraint value
+		@return constrValue: value of constraint
 		@since 0.1.0.0
 		*/
-		double getSampleConstraints(int indSample, int indConstr);
+		double getSampleConstraint(int indSample, int indConstr);
 
 		/**
-		@brief
-		@details
+		@brief Adds a sample to samples set
+		@details Adds a sample to samples set. Currently there is no reason why joining shoud fail.
+		@param sample: shared pointer of sample to be added
+		@return status: true is sample had been succesfully added to samples set, false otherwise.
 		@since 0.1.0.0
 		*/
 		bool addSample(std::shared_ptr<Sample> sample);
 
 		/**
-		@brief
-		@details
+		@brief Adds a vecotr of samples to samples set
+		@details Adds a vector f sample to samples set. Currently there is no reason why joining shoud fail.
+		@param samples: vector of shared pointer of samplse to be added
+		@return status: true is samples had been succesfully added to samples set, false otherwise.
 		@since 0.1.0.0
 		*/
 		bool addSamples(const std::vector<std::shared_ptr<Sample>>& samples);
 
 		/**
-		@brief
-		@details
+		@brief Adds a parameter to analysis parameters set
+		@details Adds a parameter to analysis parameters set. Joining new parameter is sucessfull only if another parameter 
+		with same name	does not exist yet. If it already exists, joining fails. If joining fails, function returns shared 
+		pointer of parameter already defined in analysis parameters set.
+		@param param: shared pointer of parameter to be added
+		@return addedPara: shared pointer to added parameter. If joining fails, function returns shared	pointer of parameter 
+		already defined in analysis parameters set.
 		@since 0.1.0.0
 		*/
-		bool addParameter(std::shared_ptr<AnalysisParameter> param);
+		shared_ptr<AnalysisParameter> addParameter(std::shared_ptr<AnalysisParameter> param);
 
 		/**
-		@brief
-		@details
+		@brief Adds a double bounded parameter to analysis parameters set
+		@details Adds a parameter to analysis parameters set. This overload defines a double bounded parameter.
+		Joining new parameter is sucessfull only if another parameter with same name	does not exist yet. If it already 
+		exists, joining fails. Information about new parameter are given via input parameters @ref name, @ref lb, @ref ub. 
+		@param name: name of parameter to be added
+		@param lb: lower bound of parameter to be added
+		@param ub: upper bound of parameter to be added
+		@return addedPara: shared pointer to added parameter. If joining fails, function returns shared	pointer of parameter
+		already defined in analysis parameters set.
 		@since 0.1.0.0
 		*/
 		std::shared_ptr<AnalysisParameter> addParameter(std::string name, double lb, double ub);
 
 		/**
-		@brief
-		@details
+		@brief Adds a values defined parameter to analysis parameters set
+		@details Adds a parameter to analysis parameters set. This overload defines a parameter with fixed values.
+		Joining new parameter is sucessfull only if another parameter with same name	does not exist yet. If it already
+		exists, joining fails. Information about new parameter are given via input parameters @ref name, @ref values,.
+		@param name: name of parameter to be added
+		@param values: vector of fixed values of parameter to be added
+		@return addedPara: shared pointer to added parameter. If joining fails, function returns shared	pointer of parameter
+		already defined in analysis parameters set.
 		@since 0.1.0.0
 		*/
 		std::shared_ptr<AnalysisParameter> addParameter(std::string name, const std::vector<double>& values);
@@ -174,15 +204,23 @@ namespace AnalysisGenerator
 		const std::vector<std::shared_ptr<AnalysisConstraint>>& getConstraints();
 
 		/**
-		@brief
-		@details
+		@brief Set value of a sample's objective
+		@details Set value of a sample's objective. Objective is identified by its name (parameter @ref name). Value is 
+		defined by parameter @ref value. Sample is identified by @ref index
+		param name: name of objective whose value must be set
+		param value: value of objective to be set
+		param index: index of sample show objective must be set
 		@since 0.1.0.0
 		*/
 		bool setObjective(std::string name, double value,int index);
 
 		/**
-		@brief
-		@details
+		@brief Set value of a sample's constraint
+		@details Set value of a sample's constraint. Constraint is identified by its name (parameter @ref name). Value is
+		defined by parameter @ref value. Sample is identified by @ref index
+		param name: name of constraint whose value must be set
+		param value: value of constraint to be set
+		param index: index of sample show constraint must be set
 		@since 0.1.0.0
 		*/
 		bool setConstraint(std::string name, double value, int index);
